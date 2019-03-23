@@ -17,26 +17,25 @@ import java.util.Random;
 import java.util.Stack;
 
 public class Drawing extends View{
-    public static final int TOOL_BRUSH = 1;
-    public static final int TOOL_LINE = 2;
-    public static final int TOOL_RECTANGLE = 3;
-    public static final int TOOL_STICKER = 4;
+    public static final int BRUSH_FEATURE = 1;
+    public static final int LINE_FEATURE = 2;
+    public static final int RECTANGLE_FEATURE = 3;
+    public static final int STICKER_FEATURE = 4;
 
     public static final int COLOR_RANDOM = -1;
 
-    private int currentTool = TOOL_BRUSH;           //what tool is being used by the user
+    private int currentFeature = BRUSH_FEATURE;           //what tool is being used by the user
 
     public static final int STICKER_STAR = 1;
     public static final int STICKER_LEAF = 2;
     public static final int STICKER_LEE = 3;
+
     Bitmap currentBitmap;
     Bitmap stickerStar;
     Bitmap stickerLee;
     Bitmap stickerLeaf;
 
-
     Bitmap frame_outside;
-
 
     private static final String TAG_PICT_DRAW = "TAG_PICT_DRAW";
     private int currentHeight, currentWidth;        //height and width of our widget container
@@ -46,7 +45,7 @@ public class Drawing extends View{
     private Random rand;                            //random number generator
     private int color;                              //what color to draw new shapes with
     private int thickness;                          //how thick to make lines
-    Canvas canvas;
+    private Canvas canvas;
     Matrix matrix;
     Bitmap bitmap;
     Path path;
@@ -89,8 +88,6 @@ public class Drawing extends View{
         backgroundPaint = new Paint();
         backgroundPaint.setColor(0xffffffff);
         backgroundPaint.setStyle(Paint.Style.FILL);
-
-
 
         color = 0xff00f0f0;
         setStrokeThickness(5);
@@ -201,12 +198,12 @@ public class Drawing extends View{
         this.canvas = canvas;
     }
 
-    public int getCurrentTool() {
-        return currentTool;
+    public int getCurrentFeature() {
+        return currentFeature;
     }
 
-    public void setCurrentTool(int currentTool) {
-        this.currentTool = currentTool;
+    public void setCurrentFeature(int currentFeature) {
+        this.currentFeature = currentFeature;
     }
 
     public Stack<Shape> getShapes() {
@@ -266,36 +263,37 @@ public class Drawing extends View{
         Log.i(TAG_PICT_DRAW, "HELLO");
 //        canvas.drawPath(path, linePaint);
 
-        drawFrame(canvas, mainPaint);
+//        drawFrame(canvas, mainPaint);
 
         this.canvas = canvas;
 
     }
 
-    private boolean doDrawFrame = false;
+//    private boolean doDrawFrame = false;
 
-    public void toggleDoDrawFrame(){
-        doDrawFrame = !doDrawFrame;
-        invalidate();
-    }
+//    public void toggleDoDrawFrame(){
+//        doDrawFrame = !doDrawFrame;
+//        invalidate();
+//    }
 
-    private void drawFrame(Canvas canvas, Paint paint){
+//    private void drawFrame(Canvas canvas, Paint paint){
+//
+//        if (doDrawFrame) {
+//            if (frame_outside == null) {
+//                Drawable frameDrawable = getResources().getDrawable((R.drawable.frame_outsitde));
+//
+//                frame_outside = Bitmap.createBitmap(this.getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+//
+//                Canvas canvas4 = new Canvas(frame_outside);
+//                frameDrawable.setBounds(0, 0, canvas4.getWidth(), canvas4.getHeight());
+//                frameDrawable.draw(canvas4);
+//            }
+//
+//
+//            canvas.drawBitmap(frame_outside, 0, 0, paint);
+//        }
+//    }
 
-        if (doDrawFrame) {
-            if (frame_outside == null) {
-                Drawable frameDrawable = getResources().getDrawable((R.drawable.frame_outsitde));
-
-                frame_outside = Bitmap.createBitmap(this.getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-
-                Canvas canvas4 = new Canvas(frame_outside);
-                frameDrawable.setBounds(0, 0, canvas4.getWidth(), canvas4.getHeight());
-                frameDrawable.draw(canvas4);
-            }
-
-
-            canvas.drawBitmap(frame_outside, 0, 0, paint);
-        }
-    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -368,6 +366,7 @@ public class Drawing extends View{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             performClick();         //needed by android studio to handle normal click event stuff
         }
@@ -377,18 +376,19 @@ public class Drawing extends View{
 
         Log.i(TAG_PICT_DRAW, "x = " + x + ", y = " + y);
 
-        if (currentTool == TOOL_BRUSH) {
+        // Will call the motion event when brush stroke is moving
+        if (currentFeature == BRUSH_FEATURE) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    startPath(x, y);
+                    onStartTouch(x, y);
                     invalidate();
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    continuePath(x, y);
+                    moveTouch(x, y);
                     invalidate();
                     break;
                 case MotionEvent.ACTION_UP:
-                    stopPath(x, y);
+                    stopTouch(x, y);
 //                    compressDrawnLines();
                     shapePositions.push(shapes.size());
                     invalidate();
@@ -396,13 +396,13 @@ public class Drawing extends View{
             }
         }
 
-        if (currentTool == TOOL_RECTANGLE){
+        if (currentFeature == RECTANGLE_FEATURE){
             onDrawRectangle(event);
         }
-        if (currentTool == TOOL_LINE){
+        if (currentFeature == LINE_FEATURE){
             onDrawLine(event);
         }
-        if (currentTool == TOOL_STICKER){
+        if (currentFeature == STICKER_FEATURE){
             onDrawSticker(event);
         }
 
@@ -513,21 +513,25 @@ public class Drawing extends View{
     //==============================================================================================
     //=     PATH
     //==============================================================================================
-    public void startPath(float x, float y){
+
+    /**
+     * When the brush touch to move the stroke begins
+     */
+    public void onStartTouch(float x, float y) {
         // make a new tmp path
         MyPath myPathTmp = new MyPath();
         myPathTmp.setColor(color);
         myPathTmp.setThickness(thickness);
-        myPathTmp.moveTo(x,y);
+        myPathTmp.moveTo(x, y);
         currX = x;
         currY = y;
         shapes.add(myPathTmp);
     }
 
-    public void continuePath(float x, float y){
+    public void moveTouch(float x, float y){
         MyPath myPathTmp = (MyPath)shapes.get(shapes.size()-1);
         if ( Math.abs(currX - x) >= 4 || Math.abs(currY - y) >= 4 ){
-            myPathTmp.quadTo(currX,currY,(x+currX)/2,(y+currY)/2);
+            myPathTmp.quadTo(currX,currY,(x + currX) / 2,(y + currY) / 2);
 //            path.lineTo(x,y);
             currX = x;
             currY = y;
@@ -535,7 +539,10 @@ public class Drawing extends View{
         }
     }
 
-    public void stopPath(float x, float y){
+    /**
+     *  When brush touch stops
+     */
+    public void stopTouch(float x, float y){
         MyPath myPathTmp = (MyPath)shapes.get(shapes.size()-1);
         myPathTmp.lineTo(x,y);
         currX = x;
@@ -543,15 +550,20 @@ public class Drawing extends View{
         shapes.add(myPathTmp);
     }
 
+    /**
+     * Clears the canvas
+     */
     public void clear(){
         path.reset();
         shapes.clear();
         shapePositions.clear();
         bitmap = null;
-//        bitmap = new Bitmap();
         invalidate();
     }
 
+    /**
+     * Undo
+     */
     public void undo(){
         Log.i(TAG_PICT_DRAW,"UNDO!!!");
         MyPath path = null;
@@ -748,8 +760,11 @@ class MyPath implements Shape {
         path.quadTo(x,y,x2,y2);
     }
 
+    /**
+     * Touch Up
+     */
     public void lineTo(float x, float y){
-        path.lineTo(x,y);
+        path.lineTo(x, y);
     }
 }
 

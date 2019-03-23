@@ -52,8 +52,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 
     AlertDialog stickerAlert;
 
-
-
     Drawing pictDraw;
 
     BoxedVertical brushThickness;
@@ -112,6 +110,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
                 alert.show();
             }
         });
+
         findViewById(R.id.linearLayout_color).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,6 +121,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         findViewById(R.id.button_new_page).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (pictDraw != null){
                     pictDraw.clear();
                 }
@@ -135,17 +135,17 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         findViewById(R.id.radioButton_sticker).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pictDraw.setCurrentTool(Drawing.TOOL_STICKER);
+                pictDraw.setCurrentFeature(Drawing.STICKER_FEATURE);
                 stickerAlert.show();
             }
         });
 
-        findViewById(R.id.radioButton_frame).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pictDraw.toggleDoDrawFrame();
-            }
-        });
+//        findViewById(R.id.radioButton_frame).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                pictDraw.toggleDoDrawFrame();
+//            }
+//        });
 
 
         publicDirectory = getPublicFile();
@@ -209,7 +209,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-
                 RadioGroup r = stickerAlert.findViewById(R.id.radioGroup_sticker);
 
                 int sticker = 1;
@@ -238,20 +237,20 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         //figure out what tool is checked and set the appropriate value in our tool list.
         switch(checkedId){
             case R.id.radioButton_brush:
-                pictDraw.setCurrentTool(Drawing.TOOL_BRUSH);
+                pictDraw.setCurrentFeature(Drawing.BRUSH_FEATURE);
                 break;
             case R.id.radioButton_line:
-                pictDraw.setCurrentTool(Drawing.TOOL_LINE);
+                pictDraw.setCurrentFeature(Drawing.LINE_FEATURE);
                 break;
             case R.id.radioButton_rectangle:
-                pictDraw.setCurrentTool(Drawing.TOOL_RECTANGLE);
+                pictDraw.setCurrentFeature(Drawing.RECTANGLE_FEATURE);
                 break;
             case R.id.radioButton_sticker:
 
                 break;
-            case R.id.radioButton_frame:
-
-                break;
+//            case R.id.radioButton_frame:
+//
+//                break;
         }
     }
 
