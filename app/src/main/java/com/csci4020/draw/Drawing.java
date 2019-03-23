@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
@@ -24,7 +23,6 @@ public class Drawing extends View{
     public static final int TOOL_STICKER = 4;
 
     public static final int COLOR_RANDOM = -1;
-
 
     private int currentTool = TOOL_BRUSH;           //what tool is being used by the user
 

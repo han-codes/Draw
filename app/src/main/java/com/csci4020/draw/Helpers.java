@@ -29,10 +29,10 @@ public class Helpers {
     }
 
     //do sp to px converion
-    public static float spToPx(int spSize, Context context){
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spSize, dm);
-    }
+//    public static float spToPx(int spSize, Context context){
+//        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+//        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spSize, dm);
+//    }
 
     //takes in three edit texts and gives back a color based on the values in there
     public static int rgbToHex(EditText er, EditText eg, EditText eb){

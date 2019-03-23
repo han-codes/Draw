@@ -39,10 +39,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
     private final static String KEY_SHAPE_POSITIONS = "KEY_SHAPE_POSITIONS";
     private final static String KEY_BITMAP= "KEY_BITMAP";
 
-    private final static String KEY_PICT_DRAW = "pict";
-
-    String file_path = "/sdcard";
-    String fileContents = "image.png";
     String fileLocation = null;
     File publicFile = null;
     File dir;
@@ -201,47 +197,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         }
     }
 
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        Log.i(TAG_DRAW_ACT, "onSaveInstanceState");
-//
-//        outState.putSerializable(KEY_SHAPES, pictDraw.getShapes());
-//        outState.putSerializable(KEY_SHAPE_POSITIONS, pictDraw.getShapePositions());;
-//
-//        // source: https://stackoverflow.com/questions/11010386/passing-android-bitmap-data-within-activity-using-intent-in-android
-//        // user: Zaid Daghestani
-//        if (pictDraw.getBitmap() != null){
-//            try{
-//                Bitmap bmp = pictDraw.getBitmap();
-//                String filename = "bitmap.png";
-//                FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
-//                bmp.compress(Bitmap.CompressFormat.PNG,100,stream);
-//
-//                stream.close();
-//                bmp.recycle();
-//
-//                outState.putString(KEY_BITMAP, filename);
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        }
-//        super.onSaveInstanceState(outState);
-//    }
-
-    /*
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putSerializable(KEY_SHAPES, pictDraw.getShapes());
-        outState.putSerializable(KEY_SHAPE_POSITIONS, pictDraw.getShapePositions());
-        if (fileLocation != null && !fileLocation.equals("")) {
-            outState.putSerializable(KEY_BITMAP, fileLocation);
-        }
-    }
-    */
-
     private AlertDialog setupStickerDialog(){
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         final View stickerAlert = inflater.inflate(R.layout.sticker_alert, null);
@@ -274,33 +229,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         AlertDialog alert = builder.create();
         return alert;
     }
-
-//    private void setupThicknessEditText(){
-//        final EditText thicknessET = findViewById(R.id.editText_thickness);
-//
-//        thicknessET.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                if (!editable.toString().equals("")){
-//                    try {
-//                        pictDraw.setStrokeThickness(Integer.parseInt(editable.toString()));
-//                    } catch (NumberFormatException e){
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
-//    }
 
     //update the tool code in Drawing based on what gets checked here.
     @Override
@@ -473,7 +401,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
     }
 
     private void saveImage(){
-//        grantUriPermission();
+
         this.fileLocation = MediaStore.Images.Media.insertImage(getContentResolver(),pictDraw.getDrawingCache(),"title.png","desc123");
 
         Log.i(TAG_DRAW_ACT, "this.fileLocation = " + this.fileLocation);
@@ -494,15 +422,13 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
     }
 
     @SuppressLint("SetWorldReadable")
-    public void emailImage(){
+    public void emailImage() {
+
         saveImagePublic();
         if (this.publicFile != null) {
             this.publicFile.setReadable(true, false);
             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
             emailIntent.setType("text/plain");
-//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email Subject");
-//            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"hwelch1@my.apsu.edu"});
-//            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello World!");
             emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(this.publicFile));
             startActivity(Intent.createChooser(emailIntent, "Select app to send this image."));
