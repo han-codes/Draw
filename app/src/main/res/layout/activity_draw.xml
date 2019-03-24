@@ -58,4 +58,65 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="457dp" />
 
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/new_page"
+        tools:layout_editor_absoluteX="65dp"
+        tools:layout_editor_absoluteY="457dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/save_file"
+        tools:layout_editor_absoluteX="123dp"
+        tools:layout_editor_absoluteY="457dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton7"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/send_message"
+        tools:layout_editor_absoluteX="183dp"
+        tools:layout_editor_absoluteY="457dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton8"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/undo"
+        tools:layout_editor_absoluteX="245dp"
+        tools:layout_editor_absoluteY="457dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton9"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/color_picker"
+        tools:layout_editor_absoluteX="326dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        tools:layout_editor_absoluteX="326dp"
+        tools:layout_editor_absoluteY="80dp">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/current_color"
+        tools:layout_editor_absoluteX="316dp"
+        tools:layout_editor_absoluteY="50dp" />
+
 </android.support.constraint.ConstraintLayout>
