@@ -4,5 +4,5 @@
     <string name="start_button">Start Drawing</string>
     <string name="toolbar">Toolbar</string>
     <string name="open_image">Open</string>
-    <string name="current_color">Current Color</string>
+    <string name="current_color">Current \nColor</string>
 </resources>
