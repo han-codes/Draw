@@ -10,43 +10,43 @@
         android:id="@+id/radioGroup"
         android:layout_width="109dp"
         android:layout_height="511dp"
-        android:checkedButton="@id/radioButton_paint_brush"
+        android:checkedButton="@id/radioButton_brush"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/radioButton_paint_brush"
+            android:id="@+id/radioButton_brush"
             android:layout_width="118dp"
             android:layout_height="62dp"
             android:layout_weight="1"
-            android:button="@drawable/color_picker"
+            android:button="@drawable/brush"
             android:scaleType="fitCenter" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/radioButton_line"
             android:layout_width="wrap_content"
             android:layout_height="68dp"
             android:layout_weight="1"
             android:button="@drawable/line" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/radioButton_square"
             android:layout_width="150dp"
             android:layout_height="83dp"
             android:layout_weight="1"
             android:button="@drawable/rectangle" />
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/radioButton_sticker"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
             android:layout_weight="1"
             android:button="@drawable/sticker" />
 
         <RadioButton
-            android:id="@+id/radioButton5"
+            android:id="@+id/radioButton_frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -54,52 +54,52 @@
     </RadioGroup>
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/open_file_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton6"
+        app:layout_constraintEnd_toStartOf="@+id/save_file_Button"
         app:layout_constraintStart_toEndOf="@+id/radioGroup"
         app:srcCompat="@drawable/folder" />
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/new_page_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton7"
-        app:layout_constraintStart_toEndOf="@+id/imageButton6"
+        app:layout_constraintEnd_toStartOf="@+id/send_message_button"
+        app:layout_constraintStart_toEndOf="@+id/save_file_Button"
         app:srcCompat="@drawable/new_page" />
 
     <ImageButton
-        android:id="@+id/imageButton6"
+        android:id="@+id/save_file_Button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton5"
-        app:layout_constraintStart_toEndOf="@+id/imageButton4"
+        app:layout_constraintEnd_toStartOf="@+id/new_page_button"
+        app:layout_constraintStart_toEndOf="@+id/open_file_button"
         app:srcCompat="@drawable/save_file" />
 
     <ImageButton
-        android:id="@+id/imageButton7"
+        android:id="@+id/send_message_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton8"
-        app:layout_constraintStart_toEndOf="@+id/imageButton5"
+        app:layout_constraintEnd_toStartOf="@+id/undo_button"
+        app:layout_constraintStart_toEndOf="@+id/new_page_button"
         app:srcCompat="@drawable/send_message" />
 
     <ImageButton
-        android:id="@+id/imageButton8"
+        android:id="@+id/undo_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
@@ -110,16 +110,18 @@
         app:srcCompat="@drawable/undo" />
 
     <ImageButton
-        android:id="@+id/imageButton9"
+        android:id="@+id/color_picker_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/color_picker"
-        tools:layout_editor_absoluteX="326dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/color_picker" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        android:id="@+id/constraintLayout_current_color"
         android:layout_width="50dp"
         android:layout_height="50dp"
         tools:layout_editor_absoluteX="326dp"
