@@ -2,4 +2,6 @@
     <string name="app_name">Draw</string>
     <string name="draw">DRAW!</string>
     <string name="start_button">Start Drawing</string>
+    <string name="toolbar">Toolbar</string>
+    <string name="open_image">Open</string>
 </resources>
