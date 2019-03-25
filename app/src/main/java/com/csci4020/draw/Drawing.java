@@ -21,8 +21,9 @@ public class Drawing extends View {
     private int currentFeature = BRUSH_FEATURE;
 
     private int currentColor = Color.BLACK;
-    private Paint paintStroke;
     private int strokeWidth = 2;
+    private Paint paintStroke;
+    private Paint paintBackground;
     private float currentX;
     private float currentY;
 
@@ -81,6 +82,13 @@ public class Drawing extends View {
         currentX = x;
         currentY = y;
     }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        canvas.drawPaint(paintBackground);
+    }
 }
 
 // Create class to subclass for the different stroke paths
@@ -102,7 +110,7 @@ class StrokePath implements Shape {
 
     public void setStrokeWidth(int strokeWidth) {
 
-        this.strokeWidth = strokeWidth
+        this.strokeWidth = strokeWidth;
     }
 
     public void moveTo(float x, float y) {
