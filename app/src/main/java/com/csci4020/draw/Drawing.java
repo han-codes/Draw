@@ -23,6 +23,8 @@ public class Drawing extends View {
     private int currentColor = Color.BLACK;
     private Paint paintStroke;
     private int strokeWidth = 2;
+    private float currentX;
+    private float currentY;
 
     public Drawing(Context context) {
         super(context);
@@ -73,6 +75,11 @@ public class Drawing extends View {
 
         // Set up the initial stroke
         StrokePath strokePath = new StrokePath();
+        strokePath.setColor(currentColor);
+        strokePath.setStrokeWidth(strokeWidth);
+        strokePath.moveTo(x, y);
+        currentX = x;
+        currentY = y;
     }
 }
 
@@ -86,5 +93,20 @@ class StrokePath implements Shape {
     public void draw(Canvas canvas, Paint paint) {
 
         canvas.drawPath(path, paint);
+    }
+
+    public void setColor(int currentColor) {
+
+        this.currentColor = currentColor;
+    }
+
+    public void setStrokeWidth(int strokeWidth) {
+
+        this.strokeWidth = strokeWidth
+    }
+
+    public void moveTo(float x, float y) {
+
+        path.moveTo(x, y);
     }
 }
