@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.RadioGroup;
 
-public class DrawActivity extends Activity {
+public class DrawActivity extends Activity implements RadioGroup.OnCheckedChangeListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -13,7 +14,7 @@ public class DrawActivity extends Activity {
 
         setContentView(R.layout.activity_draw);
 
-
+        setUpButtonClickListeners();
     }
 
     private void setUpButtonClickListeners() {
@@ -46,7 +47,9 @@ public class DrawActivity extends Activity {
             }
         });
 
-        
+        findViewById(R.id.constraintLayout_current_color).setOnClickListener(new View.OnClickListener() {
+
+        });
 
         findViewById(R.id.new_page_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,5 +57,14 @@ public class DrawActivity extends Activity {
 
             }
         });
+
+        findViewById(R.id.color_picker_button).setOnClickListener(new View.OnClickListener() {
+
+        });
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+
     }
 }
