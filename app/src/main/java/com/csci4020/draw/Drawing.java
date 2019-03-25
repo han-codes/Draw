@@ -1,8 +1,11 @@
 package com.csci4020.draw;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -46,5 +49,42 @@ public class Drawing extends View {
         paintStroke.setStyle(Paint.Style.STROKE);
         paintStroke.setStrokeWidth(strokeWidth);
         paintStroke.setStrokeJoin(Paint.Join.ROUND);
+    }
+
+    // Get the current color being used
+    public int getColor() {
+
+        return currentColor;
+    }
+
+    // Set the color of the paintStroke
+    public void setColor(int currentColor) {
+
+        this.currentColor = currentColor;
+        this.paintStroke.setColor(currentColor);
+    }
+
+    // MARK: - Different paths for paint stroke
+
+    /**
+     * The initial start of the stroke path
+     */
+    public void startPath(float x, float y) {
+
+        // Set up the initial stroke
+        StrokePath strokePath = new StrokePath();
+    }
+}
+
+// Create class to subclass for the different stroke paths
+class StrokePath implements Shape {
+
+    private Path path;
+    private int currentColor;
+    private int strokeWidth;
+
+    public void draw(Canvas canvas, Paint paint) {
+
+        canvas.drawPath(path, paint);
     }
 }
