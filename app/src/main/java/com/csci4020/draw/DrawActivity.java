@@ -1,7 +1,10 @@
 package com.csci4020.draw;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -131,5 +134,17 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 //            case R.id.radioButton_sticker:
 //            case R.id.radioButton_frame:
 //        }
+	}
+
+	public static float convertSpToPx(int sp, Context context)
+	{
+		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+		return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, displayMetrics);
+	}
+
+	public static float convertDpToPx(int dp, Context context)
+	{
+		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+		return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
 	}
 }
