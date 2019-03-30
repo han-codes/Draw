@@ -113,6 +113,12 @@ class StrokePath implements Shape
 		canvas.drawPath(path, paint);
 	}
 
+	@Override
+	public int getColor()
+	{
+		return 0;
+	}
+
 	public void setColor(int currentColor)
 	{
 

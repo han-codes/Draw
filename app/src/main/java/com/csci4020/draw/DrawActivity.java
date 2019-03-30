@@ -21,6 +21,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 
 		// Identify the paint area
 		paintArea = findViewById(R.id.paintArea);
+		paintArea.setDrawingCacheEnabled(true);
 
 		setUpButtonClickListeners();
 	}
@@ -130,14 +131,18 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId)
 	{
-
-//        switch checkedId {
-//            case R.id.radioButton_brush:
-//            case R.id.radioButton_line:
-//            case R.id.radioButton_square:
-//            case R.id.radioButton_sticker:
-//            case R.id.radioButton_frame:
-//        }
+		switch (checkedId)
+		{
+			case R.id.radioButton_brush:
+				paintArea.setCurrentTool(TOOLS.BRUSH);
+				break;
+			case R.id.radioButton_line:
+				paintArea.setCurrentTool(TOOLS.LINE);
+				break;
+			case R.id.radioButton_square:
+				paintArea.setCurrentTool(TOOLS.RECTANGLE);
+				break;
+		}
 	}
 
 	public static float convertSpToPx(int sp, Context context)
