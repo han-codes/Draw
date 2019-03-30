@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class PaintArea extends View
@@ -103,6 +105,24 @@ public class PaintArea extends View
 		}
 
 		setMeasuredDimension(width, height);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event)
+	{
+		try
+		{
+			if (event.getAction() == MotionEvent.ACTION_DOWN)
+			{
+				performClick();
+			}
+			//TODO IDENTIFY WHICH TOOL IS ACTIVE AND PERFORM IT'S STEPS
+			return true;
+		} catch (RuntimeException e)
+		{
+			Log.e("csci4020", "Error on touch event");
+			return false;
+		}
 	}
 
 	public void setCurrentTool(int currentTool)
