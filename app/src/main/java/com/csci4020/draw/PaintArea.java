@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Stack;
+
 enum TOOLS
 {
 	BRUSH,
@@ -23,7 +25,10 @@ public class PaintArea extends View
 	private float currY;
 
 	private TOOLS currentTool;
-	Canvas canvas;
+	private Canvas canvas;
+	private int color;
+	private int thickness;
+	Stack<Shape> shapeStack = new Stack<>();
 
 	public PaintArea(Context context)
 	{
@@ -52,6 +57,18 @@ public class PaintArea extends View
 	protected void onDraw(Canvas canvas)
 	{
 		super.onDraw(canvas);
+
+		// go thru shaps 1 by 1
+		for (Shape s : shapeStack){
+			if (s.getPaintToUse() == 1) {
+				mainPaint.setColor(s.getColor());
+				s.draw(canvas, mainPaint);
+			} else if (s.getPaintToUse() == Shape.PAINT_STROKE) {
+				linePaint.setColor(s.getColor());
+				linePaint.setStrokeWidth(s.getThickness());
+				s.draw(canvas, linePaint);
+			}
+		}
 	}
 
 	@Override
@@ -134,9 +151,8 @@ public class PaintArea extends View
 				case RECTANGLE:
 					break;
 				case LINE:
-					Line line = new Line((int) x, (int) y, (int) x + 1, (int) y + 1);
-					this.drawShape(line, event);
-					//TODO PUSH SHAPE INTO SHAPES LIST
+					shapeStack.push(new Line((int) x, (int) y, (int) x + 1, (int) y + 1, color, thickness));
+					this.drawShape(shapeStack.peek(), event);
 					break;
 			}
 

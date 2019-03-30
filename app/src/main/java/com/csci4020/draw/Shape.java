@@ -6,9 +6,15 @@ import android.view.MotionEvent;
 
 interface Shape
 {
+	int fillColor = 1;
+	int strokeColor = 0;
 	void draw(Canvas canvas, Paint paint);
 
-	int getColor();
+	int getFillColor();
+	void setFillColor(int fillColor);
+
+	int getStrokeColor();
+	void setStrokeColor(int strokeColor);
 
 	void onDraw(MotionEvent event);
 }

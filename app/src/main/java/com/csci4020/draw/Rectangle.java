@@ -3,6 +3,7 @@ package com.csci4020.draw;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 
 public class Rectangle implements Shape
 {
@@ -24,5 +25,11 @@ public class Rectangle implements Shape
 	public int getColor()
 	{
 		return 0;
+	}
+
+	@Override
+	public void onDraw(MotionEvent event)
+	{
+
 	}
 }

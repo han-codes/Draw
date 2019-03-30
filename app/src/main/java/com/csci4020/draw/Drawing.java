@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class Drawing extends View
@@ -117,6 +118,12 @@ class StrokePath implements Shape
 	public int getColor()
 	{
 		return 0;
+	}
+
+	@Override
+	public void onDraw(MotionEvent event)
+	{
+
 	}
 
 	public void setColor(int currentColor)

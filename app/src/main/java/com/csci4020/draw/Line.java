@@ -2,6 +2,7 @@ package com.csci4020.draw;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 
 public class Line implements Shape
@@ -10,13 +11,18 @@ public class Line implements Shape
 	private int startY;
 	private int endX;
 	private int endY;
+	private boolean isDrawing = false;
+	private int color;
+	private int thickness;
 
-	public Line(int startX, int startY, int endX, int endY)
+	Line(int startX, int startY, int endX, int endY, int color, int thickness)
 	{
 		this.startX = startX;
 		this.startY = startY;
 		this.endX = endX;
 		this.endY = endY;
+		this.color = color;
+		this.thickness = thickness;
 	}
 
 	@Override
@@ -34,6 +40,25 @@ public class Line implements Shape
 	@Override
 	public void onDraw(MotionEvent event)
 	{
-
+		if (event.getAction() == MotionEvent.ACTION_DOWN)
+		{
+			int x = (int) event.getX();
+			int y = (int) event.getY();
+			isDrawing = true;
+		}
+		else if (event.getAction() == MotionEvent.ACTION_UP)
+		{
+			isDrawing = false;
+			//TODO: WHY DO WE NEED TO TRACK A SHAPE SIZE?
+			// shapePositions.push(shapes.size());
+		}
+		else if (event.getAction() == MotionEvent.ACTION_MOVE)
+		{
+			if (isDrawing)
+			{
+				this.endX = ((int) event.getX());
+				this.endY = ((int) event.getY());
+			}
+		}
 	}
 }
