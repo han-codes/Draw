@@ -2,6 +2,7 @@ package com.csci4020.draw;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 
 public class Line implements Shape
 {
@@ -28,5 +29,11 @@ public class Line implements Shape
 	public int getColor()
 	{
 		return 0;
+	}
+
+	@Override
+	public void onDraw(MotionEvent event)
+	{
+
 	}
 }

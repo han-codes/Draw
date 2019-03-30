@@ -134,6 +134,9 @@ public class PaintArea extends View
 				case RECTANGLE:
 					break;
 				case LINE:
+					Line line = new Line((int) x, (int) y, (int) x + 1, (int) y + 1);
+					this.drawShape(line, event);
+					//TODO PUSH SHAPE INTO SHAPES LIST
 					break;
 			}
 
@@ -143,6 +146,12 @@ public class PaintArea extends View
 			Log.e("csci4020", "Error on touch event");
 			return false;
 		}
+	}
+
+	public void drawShape(Shape shape, MotionEvent event)
+	{
+		shape.onDraw(event);
+		invalidate();
 	}
 
 	public void setCurrentTool(TOOLS currentTool)
