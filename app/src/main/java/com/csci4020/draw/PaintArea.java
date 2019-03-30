@@ -52,7 +52,7 @@ public class PaintArea extends View
 		this.currentHeight = h;
 		this.currentWidth = w;
 
-		Bitmap bitmap = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
+		Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
 		canvas = new Canvas(bitmap);
 	}
 
@@ -65,7 +65,44 @@ public class PaintArea extends View
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
 	{
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		int width;
+		int height;
+
+		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+
+		int desiredWidth = (int) DrawActivity.convertDpToPx(100, getContext());
+		int desiredHeight = (int) DrawActivity.convertDpToPx(100, getContext());
+
+		if (widthMode == MeasureSpec.EXACTLY)
+		{
+			width = widthSize;
+		}
+		else if (widthMode == MeasureSpec.AT_MOST)
+		{
+			width = Math.min(desiredWidth, widthSize);
+		}
+		else
+		{
+			width = desiredWidth;
+		}
+
+		if (heightMode == MeasureSpec.EXACTLY)
+		{
+			height = heightSize;
+		}
+		else if (heightMode == MeasureSpec.AT_MOST)
+		{
+			height = Math.min(desiredHeight, heightSize);
+		}
+		else
+		{
+			height = desiredHeight;
+		}
+
+		setMeasuredDimension(width, height);
 	}
 
 	public void setCurrentTool(int currentTool)
