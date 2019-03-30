@@ -1,23 +1,75 @@
 package com.csci4020.draw;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
 public class PaintArea extends View
 {
+	private int currentHeight;
+	private int currentWidth;
+	private float currX;
+	private float currY;
+
+	private int currentTool;
+	Canvas canvas;
+
 	public PaintArea(Context context)
 	{
 		super(context);
+		this.setup();
 	}
 
 	public PaintArea(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
+		this.setup();
 	}
 
 	public PaintArea(Context context, AttributeSet attrs, int defStyleAttr)
 	{
 		super(context, attrs, defStyleAttr);
+		this.setup();
+	}
+
+	private void setup()
+	{
+
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas)
+	{
+		super.onDraw(canvas);
+	}
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh)
+	{
+		super.onSizeChanged(w, h, oldw, oldh);
+		this.currentHeight = h;
+		this.currentWidth = w;
+
+		Bitmap bitmap = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
+		canvas = new Canvas(bitmap);
+	}
+
+	@Override
+	public boolean performClick()
+	{
+		return super.performClick();
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+	{
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	}
+
+	public void setCurrentTool(int currentTool)
+	{
+		this.currentTool = currentTool;
 	}
 }
