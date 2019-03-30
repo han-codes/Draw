@@ -8,6 +8,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+enum TOOLS
+{
+	BRUSH,
+	RECTANGLE,
+	LINE;
+}
+
 public class PaintArea extends View
 {
 	private int currentHeight;
@@ -15,7 +22,7 @@ public class PaintArea extends View
 	private float currX;
 	private float currY;
 
-	private int currentTool;
+	private TOOLS currentTool;
 	Canvas canvas;
 
 	public PaintArea(Context context)
@@ -116,7 +123,20 @@ public class PaintArea extends View
 			{
 				performClick();
 			}
-			//TODO IDENTIFY WHICH TOOL IS ACTIVE AND PERFORM IT'S STEPS
+
+			float x = event.getX();
+			float y = event.getY();
+
+			switch (currentTool)
+			{
+				case BRUSH:
+					break;
+				case RECTANGLE:
+					break;
+				case LINE:
+					break;
+			}
+
 			return true;
 		} catch (RuntimeException e)
 		{
@@ -125,7 +145,7 @@ public class PaintArea extends View
 		}
 	}
 
-	public void setCurrentTool(int currentTool)
+	public void setCurrentTool(TOOLS currentTool)
 	{
 		this.currentTool = currentTool;
 	}
