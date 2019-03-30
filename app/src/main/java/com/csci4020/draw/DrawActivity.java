@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 
 public class DrawActivity extends Activity implements RadioGroup.OnCheckedChangeListener
 {
+	PaintArea paintArea;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -17,6 +18,9 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_draw);
+
+		// Identify the paint area
+		paintArea = findViewById(R.id.paintArea);
 
 		setUpButtonClickListeners();
 	}

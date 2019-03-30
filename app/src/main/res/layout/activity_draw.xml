@@ -140,7 +140,7 @@
         tools:layout_editor_absoluteY="65dp" />
 
     <com.csci4020.draw.PaintArea
-        android:id="@+id/textView"
+        android:id="@+id/paintArea"
         android:layout_width="284dp"
         android:layout_height="497dp"
         android:layout_marginStart="8dp"
