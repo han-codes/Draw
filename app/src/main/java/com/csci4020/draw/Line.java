@@ -81,4 +81,12 @@ public class Line implements Shape
 			}
 		}
 	}
+
+	public void setEndx(int endx) {
+		this.endX = endx;
+	}
+
+	public void setEndy(int endy) {
+		this.endY = endy;
+	}
 }

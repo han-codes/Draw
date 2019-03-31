@@ -153,14 +153,15 @@ public class PaintArea extends View
 			float x = event.getX();
 			float y = event.getY();
 
+			// TODO: - Check if there's a better way to set up a switch statement inside of BRUSH depending on which event.getAction()
 			switch (currentTool)
 			{
 				case BRUSH:
 					break;
 				case RECTANGLE:
 				    onDrawRectangle();
-					break;
 				case LINE:
+				    onDrawLine(event);
 					shapeStack.push(new Line((int) x, (int) y, (int) x + 1, (int) y + 1, color, thickness));
 					this.drawShape(shapeStack.peek(), event);
 					break;
@@ -185,6 +186,28 @@ public class PaintArea extends View
 		this.currentTool = currentTool;
 	}
 
+    //Create a line on first touch, and move the line while the user is dragging their finger around
+    private void onDrawLine(MotionEvent event){
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            Line line = new Line(x, y, x+1, y+1, color, thickness);
+            shapeStack.push(line);
+            isDrawing = true;
+        }
+        else if (event.getAction() == MotionEvent.ACTION_UP){
+            isDrawing = false;
+            shapePosition.push(shapeStack.size());
+        }
+        else if (event.getAction() == MotionEvent.ACTION_MOVE){
+            if (isDrawing) {
+                ((Line) shapeStack.peek()).setEndx(((int) event.getX()));
+                ((Line) shapeStack.peek()).setEndy(((int) event.getY()));
+            }
+        }
+        invalidate();
+    }
 
     public void onDrawRectangle(MotionEvent event, Stack<Shape> shapeStack, Stack<Integer> shapePosition){
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
