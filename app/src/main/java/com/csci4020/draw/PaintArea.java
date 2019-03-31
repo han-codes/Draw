@@ -7,10 +7,10 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -52,6 +52,7 @@ public class PaintArea extends View
     private Paint linePaint;
     private Path path;
     private Bitmap bitmap;
+    Bitmap outsideFrame;
     Matrix matrix;
 
 	Stack<Shape> shapeStack = new Stack<>();
@@ -111,7 +112,7 @@ public class PaintArea extends View
 //        setupStickerBitmaps();
 	}
 
-
+	// MARK: - Get/Set
     public void setStrokeThickness(int dpSize){
         strokeWidth = (int) Helper.convertDpToPx(dpSize, getContext());
     }
@@ -120,6 +121,12 @@ public class PaintArea extends View
 	protected void onDraw(Canvas canvas)
 	{
 		super.onDraw(canvas);
+
+        canvas.drawPaint(backgroundPaint);
+
+        if (bitmap != null) {
+            canvas.drawBitmap(this.bitmap, null, new Rect(0,0,currentWidth,currentHeight), null);
+        }
 
 		// go through shapes 1 by 1
 		for (Shape s : shapeStack){
@@ -133,7 +140,35 @@ public class PaintArea extends View
 				s.draw(canvas, linePaint);
 			}
 		}
+
+        drawFrame(canvas, mainPaint);
+
+        this.canvas = canvas;
 	}
+
+    private boolean drawingFrame = false;
+
+    public void toggleDrawingFrame(){
+        drawingFrame = !drawingFrame;
+        invalidate();
+    }
+
+    private void drawFrame(Canvas canvas, Paint paint){
+
+        if (drawingFrame) {
+            if (outsideFrame == null) {
+                Drawable frameDrawable = getResources().getDrawable((R.drawable.frame));
+
+                outsideFrame = Bitmap.createBitmap(this.getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+                Canvas canvas4 = new Canvas(outsideFrame);
+                frameDrawable.setBounds(0, 0, canvas4.getWidth(), canvas4.getHeight());
+                frameDrawable.draw(canvas4);
+            }
+
+            canvas.drawBitmap(outsideFrame, 0, 0, paint);
+        }
+    }
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh)
