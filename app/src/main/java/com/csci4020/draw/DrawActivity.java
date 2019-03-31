@@ -2,6 +2,7 @@ package com.csci4020.draw;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -30,6 +31,8 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
     File publicFile = null;
     String fileLocation = null;
     FileOutputStream publicFos;
+
+    AlertDialog stickerAlert;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -80,9 +83,13 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			@Override
 			public void onClick(View v)
 			{
-
+                if (paintArea != null ){
+                    paintArea.undo();
+                }
 			}
 		});
+
+        stickerAlert = setupStickerDialog();
 
 		findViewById(R.id.constraintLayout_current_color).setOnClickListener(new View.OnClickListener()
 		{
@@ -98,7 +105,9 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			@Override
 			public void onClick(View v)
 			{
-
+                if (paintArea != null){
+                    paintArea.clear();
+                }
 			}
 		});
 
@@ -130,7 +139,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			@Override
 			public void onClick(View view)
 			{
-                paintArea.toggleDrawingFrame();
+                paintArea.setCurrentTool(PaintArea.STICKER_FEATURE);
 			}
 		});
 
@@ -139,7 +148,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			@Override
 			public void onClick(View view)
 			{
-
+                paintArea.toggleDrawingFrame();
 			}
 		});
 	}
@@ -219,4 +228,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         }
         return file;
     }
+
+
+    // MARK: - Dealing with stickers
 }
