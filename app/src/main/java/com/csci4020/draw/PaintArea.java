@@ -268,14 +268,9 @@ public class PaintArea extends View
         temporaryPath.setColor(currentColor);
         temporaryPath.setThickness(strokeWidth);
         temporaryPath.moveTo(x,y);
-
-        // Set up the beginning stroke
-        StrokePath strokePath = new StrokePath();
-        strokePath.setColor(currentColor);
-        strokePath.setStrokeWidth(currentWidth);
-        strokePath.moveTo(x, y);
         currentX = x;
         currentY = y;
+        shapeStack.add(temporaryPath);
     }
 
     public void continuePath(float x, float y){
