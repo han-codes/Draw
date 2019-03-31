@@ -75,4 +75,8 @@ public class FreePath implements Shape
     public void moveTo(float x, float y){
         path.moveTo(x,y);
     }
+
+    public void quadTo(float x, float y, float x2, float y2){
+        path.quadTo(x, y, x2, y2);
+    }
 }

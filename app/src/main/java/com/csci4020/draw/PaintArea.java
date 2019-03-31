@@ -172,7 +172,7 @@ public class PaintArea extends View
                             invalidate();
                             break;
                         case MotionEvent.ACTION_MOVE:
-
+                            continuePath(x, y);
                             invalidate();
                             break;
                         case MotionEvent.ACTION_UP:
@@ -279,6 +279,15 @@ public class PaintArea extends View
 
     public void continuePath(float x, float y){
 
+        FreePath temporaryPath = (FreePath) shapeStack.get(shapeStack.size() - 1);
+
+        if ( Math.abs(currentX - x) >= 4 || Math.abs(currentY - y) >= 4 ) {
+
+            temporaryPath.quadTo(currentX,currentY, (x + currentX) / 2, (y + currentY) / 2);
+            currentX = x;
+            currentY = y;
+            shapeStack.add(temporaryPath);
+        }
     }
 
 
