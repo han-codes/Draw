@@ -142,15 +142,36 @@
     <com.csci4020.draw.PaintArea
         android:id="@+id/paintArea"
         android:layout_width="284dp"
-        android:layout_height="497dp"
+        android:layout_height="284dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/new_page_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/radioGroup"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout_current_color" />
+
+    <abak.tr.com.boxedverticalseekbar.BoxedVertical
+        android:id="@+id/boxedvertical_thickness"
+        android:layout_width="25dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:cornerRadius="10"
+        app:defaultValue="5"
+        app:layout_constraintBottom_toTopOf="@+id/paintArea"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="@+id/paintArea"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:max="20"
+        app:progressColor="#77FF77"
+        app:step="1"
+        app:textSize="20sp" />
 
 </android.support.constraint.ConstraintLayout>

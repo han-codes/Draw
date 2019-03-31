@@ -2,6 +2,7 @@ package com.csci4020.draw;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -13,6 +14,8 @@ import android.widget.RadioGroup;
 public class DrawActivity extends Activity implements RadioGroup.OnCheckedChangeListener
 {
 	PaintArea paintArea;
+	
+    private final static int REQUEST_PHOTO = 100;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -36,7 +39,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			@Override
 			public void onClick(View v)
 			{
-
+                openImage();
 			}
 		});
 
@@ -133,6 +136,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId)
 	{
+        PaintArea paintArea = findViewById(R.id.paintArea);
 
         switch (checkedId)
 		{
@@ -148,4 +152,11 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 				break;
 		}
 	}
+
+    private void openImage() {
+        Intent choosePictureIntent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(choosePictureIntent, REQUEST_PHOTO);
+    }
 }
