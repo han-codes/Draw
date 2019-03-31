@@ -28,7 +28,9 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 
     private final static int REQUEST_PHOTO = 100;
 
+    File file;
     File publicFile = null;
+    File publicDirectory;
     String fileLocation = null;
     FileOutputStream publicFos;
 
@@ -151,6 +153,8 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
                 paintArea.toggleDrawingFrame();
 			}
 		});
+
+        publicDirectory = getPublicFile();
 	}
 
 	/**
@@ -217,6 +221,11 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private File getPublicFile(){
+
+        return file;
     }
 
     public File getPublicAlbumStorageDirectory(String albumName) {
