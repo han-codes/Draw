@@ -30,11 +30,11 @@ public class PaintArea extends View
 	private Canvas canvas;
 	private int color;
 	private int thickness;
-    private Paint mainPaint;
-    private Paint linePaint;
+	private Paint mainPaint;
+	private Paint linePaint;
 
 	Stack<Shape> shapeStack = new Stack<>();
-    public Stack<Integer> shapePosition;
+	public Stack<Integer> shapePosition;
 
 	private boolean isDrawing = false;
 
@@ -67,12 +67,16 @@ public class PaintArea extends View
 		super.onDraw(canvas);
 
 		// go through shapes 1 by 1
-		for (Shape s : shapeStack){
-            s.getPaintToUse()
-			if (s.getPaintToUse() == 1) {
+		for (Shape s : shapeStack)
+		{
+			s.getPaintToUse();
+			if (s.getPaintToUse() == 1)
+			{
 				mainPaint.setColor(s.getFillColor());
 				s.draw(canvas, mainPaint);
-			} else if (s.getPaintToUse() == Shape.fillColor) {
+			}
+			else if (s.getPaintToUse() == Shape.fillColor)
+			{
 				linePaint.setColor(s.getColor());
 				linePaint.setStrokeWidth(s.getThickness());
 				s.draw(canvas, linePaint);
@@ -158,7 +162,7 @@ public class PaintArea extends View
 				case BRUSH:
 					break;
 				case RECTANGLE:
-				    Rectangle rect =
+					Rectangle rect = new Rectangle(color, (int) currX, (int) currY, (int) currX + 1, (int) currY + 1);
 					break;
 				case LINE:
 					shapeStack.push(new Line((int) x, (int) y, (int) x + 1, (int) y + 1, color, thickness));
@@ -190,20 +194,25 @@ public class PaintArea extends View
 
 interface Shape
 {
-    // Get's fill color
-    int getColor();
-    int getThickness();
+	// Get's fill color
+	int getColor();
 
-    int fillColor = 1;
-    int strokeColor = 0;
-    void draw(Canvas canvas, Paint paint);
+	int getThickness();
 
-    int getFillColor();
-    void setFillColor(int fillColor);
+	int fillColor = 1;
+	int strokeColor = 0;
 
-    int getStrokeColor();
-    void setStrokeColor(int strokeColor);
+	void draw(Canvas canvas, Paint paint);
 
-    void onDraw(MotionEvent event);
-    int getPaintToUse();
+	int getFillColor();
+
+	void setFillColor(int fillColor);
+
+	int getStrokeColor();
+
+	void setStrokeColor(int strokeColor);
+
+	void onDraw(MotionEvent event);
+
+	int getPaintToUse();
 }

@@ -58,6 +58,12 @@ public class Line implements Shape
 	}
 
 	@Override
+	public int getThickness()
+	{
+		return 0;
+	}
+
+	@Override
 	public void onDraw(MotionEvent event)
 	{
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
@@ -80,5 +86,11 @@ public class Line implements Shape
 				this.endY = ((int) event.getY());
 			}
 		}
+	}
+
+	@Override
+	public int getPaintToUse()
+	{
+		return 0;
 	}
 }

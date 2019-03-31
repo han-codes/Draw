@@ -103,6 +103,5 @@ public class Rectangle implements Shape
 			((Rectangle) shapeStack.peek()).setRight( (int) event.getX());
 			((Rectangle) shapeStack.peek()).setBottom( (int) event.getY());
 		}
-		invalidate();
 	}
 }
