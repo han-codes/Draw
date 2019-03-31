@@ -3,6 +3,7 @@ package com.csci4020.draw;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
@@ -21,15 +22,23 @@ enum TOOLS
 
 public class PaintArea extends View
 {
+    // Each RadioButton feature is given an int value
+    public static final int BRUSH_FEATURE = 1;
+    public static final int LINE_FEATURE = 2;
+    public static final int RECTANGLE_FEATURE = 3;
+    public static final int STICKER_FEATURE = 4;
+
+    // Initial selected feature is the brush
+    private int currentFeature = BRUSH_FEATURE;
 	private int currentHeight;
 	private int currentWidth;
-	private float currX;
-	private float currY;
+    private float currentX;
+    private float currentY;
 
 	private TOOLS currentTool;
 	private Canvas canvas;
-	private int color;
-	private int thickness;
+    private int currentColor = Color.BLACK;
+    private int strokeWidth = 2;
     private Paint mainPaint;
     private Paint linePaint;
 
@@ -157,13 +166,30 @@ public class PaintArea extends View
 			switch (currentTool)
 			{
 				case BRUSH:
+				    switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Drawing drawing = Drawing();
+                        drawing.startPath(x, y);
+                        invalidate();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        
+                        invalidate();
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        shapePosition.push(shapeStack.size());
+                        invalidate();
+                        break;
+                }
 					break;
 				case RECTANGLE:
 				    onDrawRectangle();
 				case LINE:
 				    onDrawLine(event);
-					shapeStack.push(new Line((int) x, (int) y, (int) x + 1, (int) y + 1, color, thickness));
-					this.drawShape(shapeStack.peek(), event);
+
+//					shapeStack.push(new Line((int) x, (int) y, (int) x + 1, (int) y + 1, color, strokeWidth));
+//					this.drawShape(shapeStack.peek(), event);
 					break;
 			}
 
@@ -192,7 +218,7 @@ public class PaintArea extends View
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-            Line line = new Line(x, y, x+1, y+1, color, thickness);
+            Line line = new Line(x, y, x+1, y+1, currentColor, strokeWidth);
             shapeStack.push(line);
             isDrawing = true;
         }
@@ -232,6 +258,20 @@ public class PaintArea extends View
         invalidate();
     }
 
+    /**
+     * The initial start of the stroke path
+     */
+    public void startPath(float x, float y)
+    {
+
+        // Set up the initial stroke
+        StrokePath strokePath = new StrokePath();
+        strokePath.setColor(currentColor);
+        strokePath.setStrokeWidth(currentWidth);
+        strokePath.moveTo(x, y);
+        currentX = x;
+        currentY = y;
+    }
 }
 
 interface Shape
