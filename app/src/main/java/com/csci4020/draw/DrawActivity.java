@@ -147,16 +147,4 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 				break;
 		}
 	}
-
-	public static float convertSpToPx(int sp, Context context)
-	{
-		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-		return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, displayMetrics);
-	}
-
-	public static float convertDpToPx(int dp, Context context)
-	{
-		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-		return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics);
-	}
 }

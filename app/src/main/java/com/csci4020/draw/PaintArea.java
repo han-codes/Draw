@@ -4,13 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Stack;
 
 enum TOOLS
@@ -35,19 +40,26 @@ public class PaintArea extends View
     private float currentX;
     private float currentY;
 
+
+    private Random random;
+
 	private TOOLS currentTool;
 	private Canvas canvas;
     private int currentColor = Color.BLACK;
     private int strokeWidth = 2;
+    private Paint backgroundPaint;
     private Paint mainPaint;
     private Paint linePaint;
     private Path path;
     private Bitmap bitmap;
+    Matrix matrix;
 
 	Stack<Shape> shapeStack = new Stack<>();
     public Stack<Integer> shapePosition;
+    ArrayList<Path> paths;
 
-	private boolean isDrawing = false;
+
+    private boolean isDrawing = false;
 
 	public PaintArea(Context context)
 	{
@@ -69,8 +81,40 @@ public class PaintArea extends View
 
 	private void setup()
 	{
+
+        random = new Random();
+        shapeStack = new Stack<>();
+        matrix = new Matrix();
+        paths = new ArrayList<>();
+        shapePosition = new Stack<>();
+        this.bitmap = null;
+
+        backgroundPaint = new Paint();
+        backgroundPaint.setColor(0xffffffff);
+        backgroundPaint.setStyle(Paint.Style.FILL);
+
+        currentColor = 0xff00f0f0;
+        setStrokeThickness(5);
+        mainPaint = new Paint();
+        mainPaint.setColor(currentColor);
+        mainPaint.setStyle(Paint.Style.FILL);
+
+        linePaint = new Paint();
+        linePaint.setColor(currentColor);
+        linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setStrokeWidth(strokeWidth);
+        linePaint.setStrokeJoin(Paint.Join.ROUND);
+
+
         path = new Path();
+
+//        setupStickerBitmaps();
 	}
+
+
+    public void setStrokeThickness(int dpSize){
+        strokeWidth = (int) Helper.convertDpToPx(dpSize, getContext());
+    }
 
 	@Override
 	protected void onDraw(Canvas canvas)
@@ -119,8 +163,8 @@ public class PaintArea extends View
 		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
 
-		int desiredWidth = (int) DrawActivity.convertDpToPx(100, getContext());
-		int desiredHeight = (int) DrawActivity.convertDpToPx(100, getContext());
+		int desiredWidth = (int) Helper.convertDpToPx(100, getContext());
+		int desiredHeight = (int) Helper.convertDpToPx(100, getContext());
 
 		if (widthMode == MeasureSpec.EXACTLY)
 		{
