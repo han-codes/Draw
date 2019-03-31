@@ -4,18 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class DrawActivity extends Activity implements RadioGroup.OnCheckedChangeListener
 {
 	PaintArea paintArea;
-	
+
     private final static int REQUEST_PHOTO = 100;
+    String fileLocation = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -48,7 +51,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			@Override
 			public void onClick(View v)
 			{
-
+                saveImage();
 			}
 		});
 
@@ -158,5 +161,14 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(choosePictureIntent, REQUEST_PHOTO);
+    }
+
+    private void saveImage(){
+
+        this.fileLocation = MediaStore.Images.Media.insertImage(getContentResolver(),paintArea.getDrawingCache(),"title.png","desc123");
+
+        Log.i("File Location", "this.fileLocation = " + this.fileLocation);
+
+        Toast.makeText(getApplicationContext(), "Saved to Gallery", Toast.LENGTH_SHORT).show();
     }
 }
