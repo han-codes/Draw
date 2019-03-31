@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 public class DrawActivity extends Activity implements RadioGroup.OnCheckedChangeListener
@@ -112,7 +113,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			@Override
 			public void onClick(View view)
 			{
-
+                paintArea.toggleDrawingFrame();
 			}
 		});
 
