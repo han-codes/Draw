@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 public class FreePath implements Shape
 {
 	private Path path;
+	public int color;
+	public int strokeWidth;
 
 	public FreePath()
 	{
@@ -26,11 +28,25 @@ public class FreePath implements Shape
 		return 0;
 	}
 
-	@Override
+    @Override
+    public int getThickness() {
+        return 0;
+    }
+
+    public void setThickness(int strokeWidth){
+        this.strokeWidth = strokeWidth;
+    }
+
+    @Override
 	public void onDraw(MotionEvent event)
 	{
 
 	}
+
+    @Override
+    public int getPaintToUse() {
+        return 0;
+    }
 
     @Override
     public void setFillColor(int fillColor) {
@@ -51,4 +67,12 @@ public class FreePath implements Shape
 	public void setStrokeColor(int strokeColor) {
 
 	}
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void moveTo(float x, float y){
+        path.moveTo(x,y);
+    }
 }

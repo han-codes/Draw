@@ -167,20 +167,19 @@ public class PaintArea extends View
 			{
 				case BRUSH:
 				    switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        Drawing drawing = Drawing();
-                        drawing.startPath(x, y);
-                        invalidate();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        
-                        invalidate();
-                        break;
-                    case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_DOWN:
+                            startPath(x, y);
+                            invalidate();
+                            break;
+                        case MotionEvent.ACTION_MOVE:
 
-                        shapePosition.push(shapeStack.size());
-                        invalidate();
-                        break;
+                            invalidate();
+                            break;
+                        case MotionEvent.ACTION_UP:
+
+                            shapePosition.push(shapeStack.size());
+                            invalidate();
+                            break;
                 }
 					break;
 				case RECTANGLE:
@@ -263,8 +262,13 @@ public class PaintArea extends View
      */
     public void startPath(float x, float y)
     {
+        // Set up a temporary path
+        FreePath temporaryPath = new FreePath();
+        temporaryPath.setColor(currentColor);
+        temporaryPath.setThickness(strokeWidth);
+        temporaryPath.moveTo(x,y);
 
-        // Set up the initial stroke
+        // Set up the beginning stroke
         StrokePath strokePath = new StrokePath();
         strokePath.setColor(currentColor);
         strokePath.setStrokeWidth(currentWidth);
@@ -272,6 +276,12 @@ public class PaintArea extends View
         currentX = x;
         currentY = y;
     }
+
+    public void continuePath(float x, float y){
+
+    }
+
+
 }
 
 interface Shape
