@@ -141,9 +141,19 @@ class StrokePath implements Shape
 	}
 
 	@Override
+	public int getThickness() {
+		return 0;
+	}
+
+	@Override
 	public void onDraw(MotionEvent event)
 	{
 
+	}
+
+	@Override
+	public int getPaintToUse() {
+		return 0;
 	}
 
 	public void setColor(int currentColor)

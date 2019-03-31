@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -103,7 +104,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 		});
 
 		// set listeners to Radio Group
-		RadioGroup radioGroup = findViewById(R.id.radioGroup);
+        RadioGroup radioGroup = findViewById(R.id.radioGroup);
 		radioGroup.setOnCheckedChangeListener(this);
 
 		findViewById(R.id.radioButton_sticker).setOnClickListener(new View.OnClickListener()
@@ -131,10 +132,12 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId)
 	{
-		switch (checkedId)
+
+        switch (checkedId)
 		{
 			case R.id.radioButton_brush:
 				paintArea.setCurrentTool(TOOLS.BRUSH);
+				Log.i("TOOL", "SELECTED BRUSH");
 				break;
 			case R.id.radioButton_line:
 				paintArea.setCurrentTool(TOOLS.LINE);
