@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -80,7 +79,7 @@ public class PaintArea extends View
 
 		// go through shapes 1 by 1
 		for (Shape s : shapeStack){
-            s.getPaintToUse()
+            s.getPaintToUse();
 			if (s.getPaintToUse() == 1) {
 				mainPaint.setColor(s.getFillColor());
 				s.draw(canvas, mainPaint);
@@ -164,7 +163,7 @@ public class PaintArea extends View
 
 			float x = event.getX();
 			float y = event.getY();
-			
+
 			switch (currentTool)
 			{
 				case BRUSH:
@@ -185,7 +184,7 @@ public class PaintArea extends View
                 }
 					break;
 				case RECTANGLE:
-				    onDrawRectangle();
+				    onDrawRectangle(event);
 				case LINE:
 				    onDrawLine(event);
 			}
@@ -232,13 +231,13 @@ public class PaintArea extends View
         invalidate();
     }
 
-    public void onDrawRectangle(MotionEvent event, Stack<Shape> shapeStack, Stack<Integer> shapePosition){
+    public void onDrawRectangle(MotionEvent event){
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-            Rectangle rect = new Rectangle(color, x, y, x + 1, y + 1);
-            rect.setColor(color);
+            Rectangle rect = new Rectangle(currentColor, x, y, x + 1, y + 1);
+            rect.setColor(currentColor);
             shapeStack.push(rect);
             shapeStack.push(rect);
             isDrawing = true;
