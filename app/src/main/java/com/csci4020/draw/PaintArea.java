@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -41,6 +42,8 @@ public class PaintArea extends View
     private int strokeWidth = 2;
     private Paint mainPaint;
     private Paint linePaint;
+    private Path path;
+    private Bitmap bitmap;
 
 	Stack<Shape> shapeStack = new Stack<>();
     public Stack<Integer> shapePosition;
@@ -67,7 +70,7 @@ public class PaintArea extends View
 
 	private void setup()
 	{
-
+        path = new Path();
 	}
 
 	@Override
@@ -161,8 +164,7 @@ public class PaintArea extends View
 
 			float x = event.getX();
 			float y = event.getY();
-
-			// TODO: - Check if there's a better way to set up a switch statement inside of BRUSH depending on which event.getAction()
+			
 			switch (currentTool)
 			{
 				case BRUSH:
@@ -253,9 +255,13 @@ public class PaintArea extends View
         invalidate();
     }
 
+
+    // MARK: - PATHS
+
     /**
      * The initial start of the stroke path
      */
+
     public void startPath(float x, float y)
     {
         // Set up a temporary path
@@ -286,6 +292,10 @@ public class PaintArea extends View
         }
     }
 
+    /**
+     * When the stroke stops, adds the shape, and keeps x and y coordinate.
+     */
+
     public void stopPath(float x, float y){
         FreePath temporaryPath = (FreePath) shapeStack.get(shapeStack.size()-1);
         temporaryPath.lineTo(x,y);
@@ -294,6 +304,34 @@ public class PaintArea extends View
         shapeStack.add(temporaryPath);
     }
 
+    public void clear(){
+        path.reset();
+        shapeStack.clear();
+        shapePosition.clear();
+        bitmap = null;;
+        invalidate();
+    }
+
+
+    /**
+     * Undos the last position or clears completely
+     */
+
+    public void undo(){
+
+        if (shapeStack.size() >= 1 && shapePosition.size() >= 2){
+
+            int startPos = shapePosition.pop();
+            int stopPos = shapePosition.pop();
+            for(int i = startPos; i > stopPos; i--){
+                shapeStack.pop();
+            }
+            shapePosition.push(stopPos);
+            invalidate();
+        } else {
+            clear();
+        }
+    }
 }
 
 interface Shape
