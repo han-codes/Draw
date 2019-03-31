@@ -89,7 +89,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			}
 		});
 
-        stickerAlert = setupStickerDialog();
+
 
 		findViewById(R.id.constraintLayout_current_color).setOnClickListener(new View.OnClickListener()
 		{

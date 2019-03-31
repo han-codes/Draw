@@ -51,8 +51,14 @@ public class PaintArea extends View
     private Paint mainPaint;
     private Paint linePaint;
     private Path path;
+
     private Bitmap bitmap;
     Bitmap outsideFrame;
+    Bitmap currentBitmap;
+    Bitmap stickerStar;
+    Bitmap stickerLee;
+    Bitmap stickerLeaf;
+
     Matrix matrix;
 
 	Stack<Shape> shapeStack = new Stack<>();
@@ -109,10 +115,29 @@ public class PaintArea extends View
 
         path = new Path();
 
-//        setupStickerBitmaps();
+        setupStickerBitmaps();
 	}
 
-	// MARK: - Get/Set
+    /**
+     * Setup for using stickers
+     */
+
+    private void setupStickerBitmaps(){
+        Drawable androidDrawable = getResources().getDrawable((R.drawable.star));
+
+        int size = (int) Helper.convertDpToPx(50, getContext())
+
+        stickerStar = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(stickerStar);
+        androidDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        androidDrawable.draw(canvas);
+
+        currentBitmap = stickerStar;
+    }
+
+
+    // MARK: - Get/Set
     public void setStrokeThickness(int dpSize){
         strokeWidth = (int) Helper.convertDpToPx(dpSize, getContext());
     }
@@ -148,10 +173,18 @@ public class PaintArea extends View
 
     private boolean drawingFrame = false;
 
+    /**
+     * Toggling the frame
+     */
+
     public void toggleDrawingFrame(){
         drawingFrame = !drawingFrame;
         invalidate();
     }
+
+    /**
+     * Drawing the frame
+     */
 
     private void drawFrame(Canvas canvas, Paint paint){
 
