@@ -59,6 +59,9 @@ public class PaintArea extends View
     Bitmap stickerLee;
     Bitmap stickerLeaf;
 
+
+    public static final int STAR_STICKER = 1;
+
     Matrix matrix;
 
 	Stack<Shape> shapeStack = new Stack<>();
@@ -140,6 +143,19 @@ public class PaintArea extends View
     // MARK: - Get/Set
     public void setStrokeThickness(int dpSize){
         strokeWidth = (int) Helper.convertDpToPx(dpSize, getContext());
+    }
+
+    /**
+     * Set current bitmap to selected sticker 
+     */
+
+    public void setSticker(int stickerId){
+
+        switch(stickerId){
+            case STAR_STICKER:
+                currentBitmap = stickerStar;
+                break;
+        }
     }
 
 	@Override
