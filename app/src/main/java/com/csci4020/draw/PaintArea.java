@@ -3,6 +3,8 @@ package com.csci4020.draw;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -28,7 +30,13 @@ public class PaintArea extends View
 	private Canvas canvas;
 	private int color;
 	private int thickness;
+    private Paint mainPaint;
+    private Paint linePaint;
+
 	Stack<Shape> shapeStack = new Stack<>();
+    public Stack<Integer> shapePosition;
+
+	private boolean isDrawing = false;
 
 	public PaintArea(Context context)
 	{
@@ -58,12 +66,13 @@ public class PaintArea extends View
 	{
 		super.onDraw(canvas);
 
-		// go thru shaps 1 by 1
+		// go through shapes 1 by 1
 		for (Shape s : shapeStack){
+            s.getPaintToUse()
 			if (s.getPaintToUse() == 1) {
-				mainPaint.setColor(s.getColor());
+				mainPaint.setColor(s.getFillColor());
 				s.draw(canvas, mainPaint);
-			} else if (s.getPaintToUse() == Shape.PAINT_STROKE) {
+			} else if (s.getPaintToUse() == Shape.fillColor) {
 				linePaint.setColor(s.getColor());
 				linePaint.setStrokeWidth(s.getThickness());
 				s.draw(canvas, linePaint);
@@ -149,6 +158,7 @@ public class PaintArea extends View
 				case BRUSH:
 					break;
 				case RECTANGLE:
+				    Rectangle rect =
 					break;
 				case LINE:
 					shapeStack.push(new Line((int) x, (int) y, (int) x + 1, (int) y + 1, color, thickness));
@@ -174,4 +184,26 @@ public class PaintArea extends View
 	{
 		this.currentTool = currentTool;
 	}
+
+
+}
+
+interface Shape
+{
+    // Get's fill color
+    int getColor();
+    int getThickness();
+
+    int fillColor = 1;
+    int strokeColor = 0;
+    void draw(Canvas canvas, Paint paint);
+
+    int getFillColor();
+    void setFillColor(int fillColor);
+
+    int getStrokeColor();
+    void setStrokeColor(int strokeColor);
+
+    void onDraw(MotionEvent event);
+    int getPaintToUse();
 }

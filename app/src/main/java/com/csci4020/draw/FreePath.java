@@ -20,7 +20,7 @@ public class FreePath implements Shape
 		canvas.drawPath(path, paint);
 	}
 
-	@Override
+//	@Override
 	public int getColor()
 	{
 		return 0;
@@ -29,6 +29,26 @@ public class FreePath implements Shape
 	@Override
 	public void onDraw(MotionEvent event)
 	{
+
+	}
+
+    @Override
+    public void setFillColor(int fillColor) {
+
+    }
+
+    @Override
+    public int getFillColor() {
+        return 0;
+    }
+
+    @Override
+    public int getStrokeColor() {
+        return 0;
+    }
+
+    @Override
+	public void setStrokeColor(int strokeColor) {
 
 	}
 }

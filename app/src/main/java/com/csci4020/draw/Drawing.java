@@ -115,6 +115,26 @@ class StrokePath implements Shape
 	}
 
 	@Override
+	public int getFillColor() {
+		return 0;
+	}
+
+	@Override
+	public void setFillColor(int fillColor) {
+
+	}
+
+	@Override
+	public int getStrokeColor() {
+		return 0;
+	}
+
+	@Override
+	public void setStrokeColor(int strokeColor) {
+
+	}
+
+//	@Override
 	public int getColor()
 	{
 		return 0;
