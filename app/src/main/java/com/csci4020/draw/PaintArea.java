@@ -22,7 +22,8 @@ enum TOOLS
 {
 	BRUSH,
 	RECTANGLE,
-	LINE;
+	LINE,
+    STICKER;
 }
 
 public class PaintArea extends View
@@ -128,7 +129,7 @@ public class PaintArea extends View
     private void setupStickerBitmaps(){
         Drawable androidDrawable = getResources().getDrawable((R.drawable.star));
 
-        int size = (int) Helper.convertDpToPx(50, getContext())
+        int size = (int) Helper.convertDpToPx(50, getContext());
 
         stickerStar = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 
@@ -146,7 +147,7 @@ public class PaintArea extends View
     }
 
     /**
-     * Set current bitmap to selected sticker 
+     * Set current bitmap to selected sticker
      */
 
     public void setSticker(int stickerId){

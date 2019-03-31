@@ -141,7 +141,8 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			@Override
 			public void onClick(View view)
 			{
-                paintArea.setCurrentTool(PaintArea.STICKER_FEATURE);
+                paintArea.setCurrentTool(TOOLS.STICKER);
+                stickerAlert.show();
 			}
 		});
 

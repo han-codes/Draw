@@ -63,7 +63,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/save_file_Button"
         app:layout_constraintStart_toEndOf="@+id/radioGroup"
-        app:srcCompat="@drawable/folder" />
+        android:src="@drawable/folder" />
 
     <ImageButton
         android:id="@+id/new_page_button"
@@ -74,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_message_button"
         app:layout_constraintStart_toEndOf="@+id/save_file_Button"
-        app:srcCompat="@drawable/new_page" />
+        android:src="@drawable/new_page" />
 
     <ImageButton
         android:id="@+id/save_file_Button"
@@ -85,7 +85,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/new_page_button"
         app:layout_constraintStart_toEndOf="@+id/open_file_button"
-        app:srcCompat="@drawable/save_file" />
+        android:src="@drawable/save_file" />
 
     <ImageButton
         android:id="@+id/send_message_button"
@@ -96,7 +96,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/undo_button"
         app:layout_constraintStart_toEndOf="@+id/new_page_button"
-        app:srcCompat="@drawable/send_message" />
+        android:src="@drawable/send_message" />
 
     <ImageButton
         android:id="@+id/undo_button"
@@ -107,7 +107,7 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/undo" />
+        android:src="@drawable/undo" />
 
     <ImageButton
         android:id="@+id/color_picker_button"
@@ -118,7 +118,7 @@
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/color_picker" />
+        android:src="@drawable/color_picker" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout_current_color"
