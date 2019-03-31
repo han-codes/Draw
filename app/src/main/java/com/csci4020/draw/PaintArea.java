@@ -176,7 +176,7 @@ public class PaintArea extends View
                             invalidate();
                             break;
                         case MotionEvent.ACTION_UP:
-
+                            stopPath(x, y);
                             shapePosition.push(shapeStack.size());
                             invalidate();
                             break;
@@ -186,16 +186,12 @@ public class PaintArea extends View
 				    onDrawRectangle();
 				case LINE:
 				    onDrawLine(event);
-
-//					shapeStack.push(new Line((int) x, (int) y, (int) x + 1, (int) y + 1, color, strokeWidth));
-//					this.drawShape(shapeStack.peek(), event);
-					break;
 			}
 
 			return true;
 		} catch (RuntimeException e)
 		{
-			Log.e("csci4020", "Error on touch event");
+			Log.e("Draw", "Error on touch event");
 			return false;
 		}
 	}
@@ -290,6 +286,13 @@ public class PaintArea extends View
         }
     }
 
+    public void stopPath(float x, float y){
+        FreePath temporaryPath = (FreePath) shapeStack.get(shapeStack.size()-1);
+        temporaryPath.lineTo(x,y);
+        currentX = x;
+        currentY = y;
+        shapeStack.add(temporaryPath);
+    }
 
 }
 
