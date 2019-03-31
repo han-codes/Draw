@@ -158,7 +158,7 @@ public class PaintArea extends View
 				case BRUSH:
 					break;
 				case RECTANGLE:
-				    Rectangle rect =
+				    onDrawRectangle();
 					break;
 				case LINE:
 					shapeStack.push(new Line((int) x, (int) y, (int) x + 1, (int) y + 1, color, thickness));
@@ -185,6 +185,29 @@ public class PaintArea extends View
 		this.currentTool = currentTool;
 	}
 
+
+    public void onDrawRectangle(MotionEvent event, Stack<Shape> shapeStack, Stack<Integer> shapePosition){
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            Rectangle rect = new Rectangle(color, x, y, x + 1, y + 1);
+            rect.setColor(color);
+            shapeStack.push(rect);
+            shapeStack.push(rect);
+            isDrawing = true;
+        }
+        else if (event.getAction() == MotionEvent.ACTION_UP){
+            isDrawing = false;
+            shapePosition.push(shapeStack.size());
+        }
+        //update the last drawn shape if we're still drawing it and moved
+        else if (event.getAction() == MotionEvent.ACTION_MOVE){
+            ((Rectangle) shapeStack.peek()).setRight( (int) event.getX());
+            ((Rectangle) shapeStack.peek()).setBottom( (int) event.getY());
+        }
+        invalidate();
+    }
 
 }
 
