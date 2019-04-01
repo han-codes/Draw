@@ -344,14 +344,70 @@ public class PaintArea extends View
 		this.currentTool = currentTool;
 	}
 
+    public void setShapes(Stack<Shape> shapeStack) {
+        this.shapeStack = shapeStack;
+        invalidate();
+    }
+
+    public void setShapePosition(Stack<Integer> shapePosition) {
+        this.shapePosition = shapePosition;
+        invalidate();
+    }
+
     //Create a line on first touch, and move the line while the user is dragging their finger around
     private void onDrawLine(MotionEvent event){
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+
+                Line line = new Line(x, y, x+1, y+1, currentColor, strokeWidth);
+                shapeStack.push(line);
+                isDrawing = true;
+            case MotionEvent.ACTION_UP:
+                isDrawing = false;
+                shapePosition.push(shapeStack.size());
+            case MotionEvent.ACTION_MOVE:
+                if (isDrawing) {
+                    ((Line) shapeStack.peek()).setEndx(((int) event.getX()));
+                    ((Line) shapeStack.peek()).setEndy(((int) event.getY()));
+                }
+        }
+
+        invalidate();
+    }
+
+    private void onDrawRectangle(MotionEvent event){
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+
+                Rectangle rect = new Rectangle(currentColor, x, y, x + 1, y + 1);
+                rect.setColor(currentColor);
+                shapeStack.push(rect);
+                isDrawing = true;
+            case MotionEvent.ACTION_UP:
+                isDrawing = false;
+                shapePosition.push(shapeStack.size());
+            case MotionEvent.ACTION_MOVE:
+                ((Rectangle) shapeStack.peek()).setRight( (int) event.getX());
+                ((Rectangle) shapeStack.peek()).setBottom( (int) event.getY());
+        }
+
+        invalidate();
+    }
+
+    //Create a line on first touch, and move the line while the user is dragging their finger around
+    private void onDrawSticker(MotionEvent event){
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-            Line line = new Line(x, y, x+1, y+1, currentColor, strokeWidth);
-            shapeStack.push(line);
+            Sticker sticker = new Sticker(x, y, currentBitmap);
+            shapeStack.push(sticker);
             isDrawing = true;
         }
         else if (event.getAction() == MotionEvent.ACTION_UP){
@@ -360,37 +416,12 @@ public class PaintArea extends View
         }
         else if (event.getAction() == MotionEvent.ACTION_MOVE){
             if (isDrawing) {
-                ((Line) shapeStack.peek()).setEndx(((int) event.getX()));
-                ((Line) shapeStack.peek()).setEndy(((int) event.getY()));
+                ((Sticker) shapeStack.peek()).setX(((int) event.getX()));
+                ((Sticker) shapeStack.peek()).setY(((int) event.getY()));
             }
         }
-
         invalidate();
     }
-
-    public void onDrawRectangle(MotionEvent event){
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-
-            Rectangle rect = new Rectangle(currentColor, x, y, x + 1, y + 1);
-            rect.setColor(currentColor);
-            shapeStack.push(rect);
-            shapeStack.push(rect);
-            isDrawing = true;
-        }
-        else if (event.getAction() == MotionEvent.ACTION_UP){
-            isDrawing = false;
-            shapePosition.push(shapeStack.size());
-        }
-        //update the last drawn shape if we're still drawing it and moved
-        else if (event.getAction() == MotionEvent.ACTION_MOVE){
-            ((Rectangle) shapeStack.peek()).setRight( (int) event.getX());
-            ((Rectangle) shapeStack.peek()).setBottom( (int) event.getY());
-        }
-        invalidate();
-    }
-
 
     // MARK: - PATHS
 

@@ -20,12 +20,18 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Stack;
 
 public class DrawActivity extends Activity implements RadioGroup.OnCheckedChangeListener
 {
 	PaintArea paintArea;
+
+    private final static String KEY_SHAPES = "KEY_SHAPES";
+    private final static String KEY_SHAPE_POSITIONS = "KEY_SHAPE_POSITIONS";
+    private final static String KEY_BITMAP= "KEY_BITMAP";
 
     private final static int REQUEST_PHOTO = 100;
 
@@ -49,6 +55,27 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 		paintArea.setDrawingCacheEnabled(true);
 
 		setUpButtonClickListeners();
+
+        if (savedInstanceState != null){
+            paintArea.setShapes((Stack)savedInstanceState.getSerializable(KEY_SHAPES));
+            paintArea.setShapePosition((Stack)savedInstanceState.getSerializable(KEY_SHAPE_POSITIONS));
+
+            // bitmap
+            Bitmap bmp = null;
+            String filename = savedInstanceState.getString(KEY_BITMAP, "");
+
+            if (!filename.equals("")) {
+                try {
+                    FileInputStream fis = this.openFileInput(filename);
+                    bmp = BitmapFactory.decodeStream(fis);
+                    fis.close();
+//                    Log.i(TAG_DRAW_ACT, "bmp = " + bmp);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                paintArea.setNewImage(bmp, bmp);
+            }
+        }
 	}
 
 	private void setUpButtonClickListeners()
@@ -179,6 +206,10 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			case R.id.radioButton_square:
 				paintArea.setCurrentTool(TOOLS.RECTANGLE);
 				break;
+            case R.id.radioButton_sticker:
+                break;
+            case R.id.radioButton_frame:
+                break;
 		}
 	}
 
