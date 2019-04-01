@@ -124,8 +124,12 @@
         android:id="@+id/constraintLayout_current_color"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        tools:layout_editor_absoluteX="326dp"
-        tools:layout_editor_absoluteY="103dp">
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/boxedvertical_thickness"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
     </android.support.constraint.ConstraintLayout>
 
@@ -133,11 +137,12 @@
         android:id="@+id/textView2"
         android:layout_width="73dp"
         android:layout_height="31dp"
+        android:layout_marginTop="8dp"
         android:text="@string/current_color"
         android:textAlignment="center"
         android:textSize="10sp"
-        tools:layout_editor_absoluteX="314dp"
-        tools:layout_editor_absoluteY="65dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_picker_button" />
 
     <com.csci4020.draw.PaintArea
         android:id="@+id/paintArea"
