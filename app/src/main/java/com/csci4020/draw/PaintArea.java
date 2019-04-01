@@ -326,6 +326,13 @@ public class PaintArea extends View
 		}
 	}
 
+    public void setNewImage(Bitmap alteredBitmap, Bitmap bitmap){
+
+        this.bitmap = bitmap;
+
+        invalidate();
+    }
+
 	public void drawShape(Shape shape, MotionEvent event)
 	{
 		shape.onDraw(event);
@@ -357,6 +364,7 @@ public class PaintArea extends View
                 ((Line) shapeStack.peek()).setEndy(((int) event.getY()));
             }
         }
+
         invalidate();
     }
 
