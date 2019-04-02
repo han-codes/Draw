@@ -12,6 +12,7 @@ public class Rectangle implements Shape
 	private Rect rect;
 	private int color;
 
+
 //	Rectangle(int left, int top, int right, int bottom)
 //	{
 //		rect = new Rect(left, top, right, bottom);
@@ -83,25 +84,5 @@ public class Rectangle implements Shape
 		this.color = color;
 	}
 
-	public void onDrawRectangle(MotionEvent event, Stack<Shape> shapeStack, boolean isDrawing, Stack<Integer> shapePosition){
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			int x = (int) event.getX();
-			int y = (int) event.getY();
 
-			Rectangle rect = new Rectangle(color, x, y, x + 1, y + 1);
-			rect.setColor(color);
-			shapeStack.push(rect);
-//            shapes.push(rect);
-			isDrawing = true;
-		}
-		else if (event.getAction() == MotionEvent.ACTION_UP){
-			isDrawing = false;
-			shapePosition.push(shapeStack.size());
-		}
-		//update the last drawn shape if we're still drawing it and moved
-		else if (event.getAction() == MotionEvent.ACTION_MOVE){
-			((Rectangle) shapeStack.peek()).setRight( (int) event.getX());
-			((Rectangle) shapeStack.peek()).setBottom( (int) event.getY());
-		}
-	}
 }

@@ -58,8 +58,7 @@ public class Line implements Shape
 	}
 
 	@Override
-	public int getThickness()
-	{
+	public int getThickness() {
 		return 0;
 	}
 
@@ -89,8 +88,15 @@ public class Line implements Shape
 	}
 
 	@Override
-	public int getPaintToUse()
-	{
+	public int getPaintToUse() {
 		return 0;
+	}
+
+	public void setEndx(int endx) {
+		this.endX = endx;
+	}
+
+	public void setEndy(int endy) {
+		this.endY = endy;
 	}
 }

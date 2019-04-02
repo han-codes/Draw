@@ -63,7 +63,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/save_file_Button"
         app:layout_constraintStart_toEndOf="@+id/radioGroup"
-        app:srcCompat="@drawable/folder" />
+        android:src="@drawable/folder" />
 
     <ImageButton
         android:id="@+id/new_page_button"
@@ -74,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_message_button"
         app:layout_constraintStart_toEndOf="@+id/save_file_Button"
-        app:srcCompat="@drawable/new_page" />
+        android:src="@drawable/new_page" />
 
     <ImageButton
         android:id="@+id/save_file_Button"
@@ -85,7 +85,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/new_page_button"
         app:layout_constraintStart_toEndOf="@+id/open_file_button"
-        app:srcCompat="@drawable/save_file" />
+        android:src="@drawable/save_file" />
 
     <ImageButton
         android:id="@+id/send_message_button"
@@ -96,7 +96,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/undo_button"
         app:layout_constraintStart_toEndOf="@+id/new_page_button"
-        app:srcCompat="@drawable/send_message" />
+        android:src="@drawable/send_message" />
 
     <ImageButton
         android:id="@+id/undo_button"
@@ -107,7 +107,7 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/undo" />
+        android:src="@drawable/undo" />
 
     <ImageButton
         android:id="@+id/color_picker_button"
@@ -118,14 +118,18 @@
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/color_picker" />
+        android:src="@drawable/color_picker" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout_current_color"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        tools:layout_editor_absoluteX="326dp"
-        tools:layout_editor_absoluteY="103dp">
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/boxedvertical_thickness"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
     </android.support.constraint.ConstraintLayout>
 
@@ -133,24 +137,46 @@
         android:id="@+id/textView2"
         android:layout_width="73dp"
         android:layout_height="31dp"
+        android:layout_marginTop="8dp"
         android:text="@string/current_color"
         android:textAlignment="center"
         android:textSize="10sp"
-        tools:layout_editor_absoluteX="314dp"
-        tools:layout_editor_absoluteY="65dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_picker_button" />
 
     <com.csci4020.draw.PaintArea
         android:id="@+id/paintArea"
         android:layout_width="284dp"
-        android:layout_height="497dp"
+        android:layout_height="284dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/new_page_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/radioGroup"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout_current_color" />
+
+    <abak.tr.com.boxedverticalseekbar.BoxedVertical
+        android:id="@+id/boxedvertical_thickness"
+        android:layout_width="25dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:cornerRadius="10"
+        app:defaultValue="5"
+        app:layout_constraintBottom_toTopOf="@+id/paintArea"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="@+id/paintArea"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:max="20"
+        app:progressColor="#77FF77"
+        app:step="1"
+        app:textSize="20sp" />
 
 </android.support.constraint.ConstraintLayout>
