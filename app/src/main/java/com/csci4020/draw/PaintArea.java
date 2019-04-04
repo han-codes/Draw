@@ -188,6 +188,7 @@ public class PaintArea extends View
 			// TODO THIS IS CHECKING IF IT IS PAINTING A FILL OR STROKE
 			if (s.getPaintStyle() == PAINT_STYLE.STROKE_ONLY)
 			{
+				Log.i("Draw","Stroke only is the paint style");
 				// TODO THIS SEEMS LIKE IT'S DUPLICATING THE SAME STEP. ??
 				mainPaint.setColor(s.getFillColor());
 				s.draw(canvas, mainPaint);

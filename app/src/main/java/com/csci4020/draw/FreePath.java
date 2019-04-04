@@ -22,16 +22,17 @@ public class FreePath extends Path implements Shape
 	@Override
 	public void draw(Canvas canvas, Paint paint)
 	{
-		canvas.drawPath(path, paint);
+		canvas.drawPath(this, paint);
 	}
 
-//	@Override
+	//TODO SHAPE INTERFACE NEEDS TO BE MODIFIED. NOTHING SHOULD ONLY HAVE A COLOR. SHOULD BE FILL OR STROKE
+	@Override
 	public int getColor()
 	{
 		return this.color;
 	}
 
-    @Override
+	@Override
     public int getThickness() {
         return 0;
     }
@@ -60,7 +61,7 @@ public class FreePath extends Path implements Shape
 
     @Override
     public int getFillColor() {
-        return 0;
+        return this.color; // TODO THIS NEEDS TO ACTUALLY RETURN A fill COLOR
     }
 
     @Override
