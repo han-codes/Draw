@@ -14,6 +14,8 @@ public class FreePath implements Shape
 	public FreePath()
 	{
 		this.path = new Path();
+		this.strokeWidth = 5;
+		this.color = 0xFFCCCCCC;
 	}
 
 	@Override

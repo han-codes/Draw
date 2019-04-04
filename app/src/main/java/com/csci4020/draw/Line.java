@@ -32,33 +32,38 @@ public class Line implements Shape
 	}
 
 	@Override
-	public int getFillColor() {
+	public int getFillColor()
+	{
 		return 0;
 	}
 
 	@Override
-	public void setFillColor(int fillColor) {
+	public void setFillColor(int fillColor)
+	{
 
 	}
 
 	@Override
-	public int getStrokeColor() {
+	public int getStrokeColor()
+	{
 		return 0;
 	}
 
 	@Override
-	public void setStrokeColor(int strokeColor) {
+	public void setStrokeColor(int strokeColor)
+	{
 
 	}
 
-//	@Override
+	//	@Override
 	public int getColor()
 	{
 		return 0;
 	}
 
 	@Override
-	public int getThickness() {
+	public int getThickness()
+	{
 		return 0;
 	}
 
@@ -88,15 +93,18 @@ public class Line implements Shape
 	}
 
 	@Override
-	public int getPaintToUse() {
+	public int getPaintToUse()
+	{
 		return 0;
 	}
 
-	public void setEndx(int endx) {
+	public void setEndx(int endx)
+	{
 		this.endX = endx;
 	}
 
-	public void setEndy(int endy) {
+	public void setEndy(int endy)
+	{
 		this.endY = endy;
 	}
 }
