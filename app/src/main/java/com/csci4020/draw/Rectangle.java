@@ -68,8 +68,10 @@ public class Rectangle implements Shape
 	}
 
 	@Override
-	public int getPaintToUse() {
-		return 0;
+	public PAINT_STYLE getPaintStyle()
+	{
+		// TODO NEED TO IMPLEMENT THIS FUNCTION
+		return null;
 	}
 
 	public void setRight(int right){

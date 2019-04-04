@@ -5,11 +5,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
 
-public class FreePath implements Shape
+public class FreePath extends Path implements Shape
 {
 	private Path path;
 	public int color;
 	public int strokeWidth;
+	private PAINT_STYLE paintStyle = PAINT_STYLE.STROKE_ONLY;
 
 	public FreePath()
 	{
@@ -27,7 +28,7 @@ public class FreePath implements Shape
 //	@Override
 	public int getColor()
 	{
-		return 0;
+		return this.color;
 	}
 
     @Override
@@ -45,12 +46,14 @@ public class FreePath implements Shape
 
 	}
 
-    @Override
-    public int getPaintToUse() {
-        return 0;
-    }
+	@Override
+	public PAINT_STYLE getPaintStyle()
+	{
+		return this.paintStyle;
+	}
 
-    @Override
+
+	@Override
     public void setFillColor(int fillColor) {
 
     }
@@ -72,18 +75,6 @@ public class FreePath implements Shape
 
     public void setColor(int color) {
         this.color = color;
-    }
-
-    public void moveTo(float x, float y){
-        path.moveTo(x,y);
-    }
-
-    public void quadTo(float x, float y, float x2, float y2){
-        path.quadTo(x, y, x2, y2);
-    }
-
-    public void lineTo(float x, float y){
-        path.lineTo(x, y);
     }
 }
 

@@ -93,10 +93,12 @@ public class Line implements Shape
 	}
 
 	@Override
-	public int getPaintToUse()
+	public PAINT_STYLE getPaintStyle()
 	{
-		return 0;
+		// TODO NEED TO IMPLEMENT THIS FUNCTION
+		return null;
 	}
+
 
 	public void setEndx(int endx)
 	{

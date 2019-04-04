@@ -26,6 +26,13 @@ enum TOOLS
 	STICKER
 }
 
+enum PAINT_STYLE
+{
+	FILL_ONLY,
+	STROKE_ONLY,
+	FILL_AND_STROKE
+}
+
 public class PaintArea extends View
 {
 	// Each RadioButton feature is given an int value
@@ -101,10 +108,10 @@ public class PaintArea extends View
 		this.bitmap = null;
 
 		backgroundPaint = new Paint();
-		backgroundPaint.setColor(0xffffffff);
+		backgroundPaint.setColor(0XFFFFFFFF);
 		backgroundPaint.setStyle(Paint.Style.FILL);
 
-		currentColor = 0xff444444;
+		currentColor = 0xAAAAAAAA;
 		setStrokeThickness(5);
 		mainPaint = new Paint();
 		mainPaint.setColor(currentColor);
@@ -178,13 +185,14 @@ public class PaintArea extends View
 		// go through shapes 1 by 1
 		for (Shape s : shapeStack)
 		{
-			s.getPaintToUse();
-			if (s.getPaintToUse() == 1)
+			// TODO THIS IS CHECKING IF IT IS PAINTING A FILL OR STROKE
+			if (s.getPaintStyle() == PAINT_STYLE.STROKE_ONLY)
 			{
+				// TODO THIS SEEMS LIKE IT'S DUPLICATING THE SAME STEP. ??
 				mainPaint.setColor(s.getFillColor());
 				s.draw(canvas, mainPaint);
 			}
-			else if (s.getPaintToUse() == Shape.fillColor)
+			else if (s.getPaintStyle() == PAINT_STYLE.FILL_ONLY)
 			{
 				linePaint.setColor(s.getColor());
 				linePaint.setStrokeWidth(s.getThickness());
@@ -349,7 +357,7 @@ public class PaintArea extends View
 
 	public void setCurrentTool(TOOLS currentTool)
 	{
-		Log.i("Draw","Current tool set to " + currentTool);
+		Log.i("Draw", "Current tool set to " + currentTool);
 		this.currentTool = currentTool;
 	}
 
@@ -551,5 +559,5 @@ interface Shape
 
 	void onDraw(MotionEvent event);
 
-	int getPaintToUse();
+	PAINT_STYLE getPaintStyle();
 }
