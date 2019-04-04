@@ -22,7 +22,7 @@ public class FreePath extends Path implements Shape
 	@Override
 	public void draw(Canvas canvas, Paint paint)
 	{
-		canvas.drawPath(this, paint);
+		canvas.drawPath(this, paint); // TODO EXTENDING PATH AND SENDING "this" IS THE TRICK HERE
 	}
 
 	//TODO SHAPE INTERFACE NEEDS TO BE MODIFIED. NOTHING SHOULD ONLY HAVE A COLOR. SHOULD BE FILL OR STROKE
