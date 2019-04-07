@@ -8,12 +8,6 @@ import android.widget.EditText;
 
 public class Helper {
 
-    public static float convertSpToPx(int sp, Context context)
-    {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, displayMetrics);
-    }
-
     public static float convertDpToPx(int dp, Context context)
     {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
