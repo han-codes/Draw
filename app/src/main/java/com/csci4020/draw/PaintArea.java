@@ -18,20 +18,20 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
-enum TOOLS
-{
-	BRUSH,
-	RECTANGLE,
-	LINE,
-	STICKER
-}
+//enum TOOLS
+//{
+//	BRUSH,
+//	RECTANGLE,
+//	LINE,
+//	STICKER
+//}
 
-enum PAINT_STYLE
-{
-	FILL_ONLY,
-	STROKE_ONLY,
-	FILL_AND_STROKE
-}
+//enum PAINT_STYLE
+//{
+//	FILL_ONLY,
+//	STROKE_ONLY,
+//	FILL_AND_STROKE
+//}
 
 public class PaintArea extends View
 {
@@ -42,6 +42,7 @@ public class PaintArea extends View
 	public static final int STICKER_FEATURE = 4;
 
 	// Initial selected feature is the brush
+//	private int currentFeature = BRUSH_FEATURE;
 	private int currentFeature = BRUSH_FEATURE;
 	private int currentHeight;
 	private int currentWidth;
@@ -148,8 +149,9 @@ public class PaintArea extends View
 		currentBitmap = stickerStar;
 	}
 
-
-	// MARK: - Get/Set
+	//
+	// MARK: - Getters/Setters
+	//
 	public void setStrokeThickness(int dpSize)
 	{
 		strokeWidth = (int) Helper.convertDpToPx(dpSize, getContext());
@@ -170,6 +172,53 @@ public class PaintArea extends View
 		}
 	}
 
+	public int getColor() {
+		if (color == -1){
+			return rand.nextInt(0x1000000) + 0xff000000;
+		} else {
+			return color;
+		}
+	}
+
+	public void setColor(int color) {
+		this.color = color;
+		this.linePaint.setColor(color); // sometimes drawing goes in the previous color
+	}
+
+	public Canvas getCanvas() {
+		return canvas;
+	}
+
+	public void setCanvas(Canvas canvas) {
+		this.canvas = canvas;
+	}
+
+	public int getCurrentTool() {
+		return currentTool;
+	}
+
+	public void setCurrentTool(int currentTool) {
+		this.currentTool = currentTool;
+	}
+
+	public Stack<Shape> getShapes() {
+		return shapes;
+	}
+
+	public void setShapes(Stack<Shape> shapes) {
+		this.shapes = shapes;
+		invalidate();
+	}
+
+	public Stack<Integer> getShapePositions() {
+		return shapePositions;
+	}
+
+	public void setShapePositions(Stack<Integer> shapePositions) {
+		this.shapePositions = shapePositions;
+		invalidate();
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
@@ -186,17 +235,17 @@ public class PaintArea extends View
 		for (Shape s : shapeStack)
 		{
 			// TODO THIS IS CHECKING IF IT IS PAINTING A FILL OR STROKE
-			if (s.getPaintStyle() == PAINT_STYLE.FILL_ONLY)
+			if (s.getPaintToUse() == Shape.PAINT_FILL)
 			{
 				Log.i("Draw","Fill only is the paint style");
 				// TODO THIS SEEMS LIKE IT'S DUPLICATING THE SAME STEP. ??
-				mainPaint.setColor(s.getFillColor());
+				mainPaint.setColor(s.getColor());
 				s.draw(canvas, mainPaint);
 			}
-			else if (s.getPaintStyle() == PAINT_STYLE.STROKE_ONLY)
+			else if (s.getPaintToUse() == PAINT_STYLE.STROKE_ONLY)
 			{
 				Log.i("Draw","Stroke only is the paint style");
-				linePaint.setColor(s.getStrokeColor());
+				linePaint.setColor(s.getColor());
 				Log.i("Draw","Stroke Color: " + linePaint.getColor());
 				linePaint.setStrokeWidth(s.getThickness());
 				Log.i("Draw","Stroke thickness: " + linePaint.getStrokeWidth());
@@ -472,7 +521,7 @@ public class PaintArea extends View
 	{
 		Log.i("Draw", "Began a free path");
 		// Set up a temporary path
-		FreePath temporaryPath = new FreePath();
+		MyPath temporaryPath = new MyPath();
 		temporaryPath.setColor(currentColor);
 		temporaryPath.setThickness(strokeWidth);
 		temporaryPath.moveTo(x, y);
@@ -484,7 +533,7 @@ public class PaintArea extends View
 	public void continuePath(float x, float y)
 	{
 		Log.i("Draw", "Continuing the free path");
-		FreePath temporaryPath = (FreePath) shapeStack.get(shapeStack.size() - 1);
+		MyPath temporaryPath = (MyPath) shapeStack.get(shapeStack.size() - 1);
 
 		if (Math.abs(currentX - x) >= 4 || Math.abs(currentY - y) >= 4)
 		{
@@ -503,7 +552,7 @@ public class PaintArea extends View
 	public void stopPath(float x, float y)
 	{
 		Log.i("Draw", "Finished a free path");
-		FreePath temporaryPath = (FreePath) shapeStack.get(shapeStack.size() - 1);
+		MyPath temporaryPath = (MyPath) shapeStack.get(shapeStack.size() - 1);
 		temporaryPath.lineTo(x, y);
 		currentX = x;
 		currentY = y;
@@ -547,27 +596,255 @@ public class PaintArea extends View
 	}
 }
 
-interface Shape
-{
-	// Get's fill color
+//==============================================================================================
+//=     SHAPE CLASSES
+//==============================================================================================
+//Defines a shape, which must know how to draw itself when given a canvas and a paint,
+// have a color, and know what type of paint to use.
+// using this lets us have a stack of shapes that we can draw in order
+interface Shape{
+	void draw(Canvas canvas, Paint paint);
 	int getColor();
-
 	int getThickness();
 
-	int fillColor = 1;
-	int strokeColor = 0;
-
-	void draw(Canvas canvas, Paint paint);
-
-	int getFillColor();
-
-	void setFillColor(int fillColor);
-
-	int getStrokeColor();
-
-	void setStrokeColor(int strokeColor);
-
-	void onDraw(MotionEvent event);
-
-	PAINT_STYLE getPaintStyle();
+	int PAINT_FILL = 1;
+	int PAINT_STROKE = 0;
+	int getPaintToUse();
 }
+
+//Basic wrapper class for Rect that lets it also hold a color
+//==============================================================================================
+//=     RECTANGLE
+//==============================================================================================
+class Rectangle implements Shape{
+	private Rect rect;
+	private int color;
+
+	Rectangle(int color, int left, int top, int right, int bottom){
+		rect = new Rect(left, top, right, bottom);
+		this.color = color;
+	}
+
+	public void draw(Canvas canvas, Paint paint){
+		canvas.drawRect(getRect(), paint);
+	}
+
+	public void setRight(int right){
+		rect.right = right;
+	}
+
+	public void setBottom(int bottom){
+		rect.bottom = bottom;
+	}
+
+	public void setColor(int color){
+		this.color = color;
+	}
+
+	public int getColor(){
+		return color;
+	}
+
+	public Rect getRect(){
+		return rect;
+	}
+
+	public int getThickness(){return 1;};
+
+	@Override
+	public int getPaintToUse() {
+		return PAINT_FILL;
+	}
+
+}
+
+//==============================================================================================
+//=     LINE
+//==============================================================================================
+class Line implements Shape{
+	private int startx;
+	private int starty;
+	private int endx;
+	private int endy;
+	private int color;
+	private int thickness;
+
+
+
+	public Line(int startx, int starty, int endx, int endy, int color, int thickness) {
+		this.startx = startx;
+		this.starty = starty;
+		this.endx = endx;
+
+		this.endy = endy;
+		this.color = color;
+		this.thickness = thickness;
+	}
+
+	public void draw(Canvas canvas, Paint paint){
+		canvas.drawLine(startx, starty, endx, endy, paint);
+	}
+
+	public void setEndx(int endx) {
+		this.endx = endx;
+	}
+
+	public void setEndy(int endy) {
+		this.endy = endy;
+	}
+
+	public int getThickness() {
+		return thickness;
+	}
+
+	public int getColor(){
+		return color;
+	}
+
+	@Override
+	public int getPaintToUse() {
+		return PAINT_STROKE;
+	}
+}
+
+//==============================================================================================
+//=     MYPATH
+//==============================================================================================
+class MyPath implements Shape {
+	private Path path;
+	private int color;
+	private int thickness;
+
+	public Path getPath() {
+		return path;
+	}
+
+	public void setPath(Path path) {
+		this.path = path;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
+	}
+
+	public void setThickness(int thickness){
+		this.thickness = thickness;
+	}
+
+	public MyPath(){
+		this.path = new Path();
+		this.color = 0xFF000000; // default to black
+		this.thickness = 5;
+	}
+
+	public MyPath(Path path, int color, int thickness) {
+		this.path = path;
+		this.color = color;
+		this.thickness = thickness;
+	}
+
+	public void draw(Canvas canvas, Paint paint){
+		canvas.drawPath(path, paint);
+	}
+
+	@Override
+	public int getColor() {
+		return color;
+	}
+
+	public int getThickness(){return thickness;};
+
+	@Override
+	public int getPaintToUse() {
+		return PAINT_STROKE;
+	}
+
+	public void moveTo(float x, float y){
+		path.moveTo(x,y);
+	}
+
+	public void quadTo(float x, float y, float x2, float y2){
+		path.quadTo(x,y,x2,y2);
+	}
+
+	public void lineTo(float x, float y){
+		path.lineTo(x,y);
+	}
+}
+
+//==============================================================================================
+//=     STICKER
+//==============================================================================================
+class Sticker implements Shape {
+	private int x, y;
+	private Bitmap bitmap;
+
+	@Override
+	public void draw(Canvas canvas, Paint paint) {
+		canvas.drawBitmap(bitmap, x, y, paint);
+	}
+
+	@Override
+	public int getColor() {
+		return 0xff000000;
+	}
+
+	@Override
+	public int getThickness() {
+		return 1;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public Sticker(int x, int y, Bitmap bitmap) {
+
+		this.x = x;
+		this.y = y;
+		this.bitmap = bitmap;
+	}
+
+	@Override
+
+	public int getPaintToUse() {
+		return PAINT_FILL;
+	}
+}
+
+//interface Shape
+//{
+//	// Get's fill color
+//	int getColor();
+//
+//	int getThickness();
+//
+//	int fillColor = 1;
+//	int strokeColor = 0;
+//
+//	void draw(Canvas canvas, Paint paint);
+//
+//	int getFillColor();
+//
+//	void setFillColor(int fillColor);
+//
+//	int getStrokeColor();
+//
+//	void setStrokeColor(int strokeColor);
+//
+//	void onDraw(MotionEvent event);
+//
+//	PAINT_STYLE getPaintStyle();
+//}
