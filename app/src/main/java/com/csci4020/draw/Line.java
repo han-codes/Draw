@@ -12,22 +12,24 @@ public class Line implements Shape
 	private int endX;
 	private int endY;
 	private boolean isDrawing = false;
-	private int color;
-	private int thickness;
+	private int strokeColor = 0xFFCCCCCC;
+	private int thickness = 2;
+	private PAINT_STYLE paintStyle = PAINT_STYLE.STROKE_ONLY;
 
-	Line(int startX, int startY, int endX, int endY, int color, int thickness)
+	Line(int startX, int startY, int endX, int endY, int strokeColor, int thickness)
 	{
 		this.startX = startX;
 		this.startY = startY;
 		this.endX = endX;
 		this.endY = endY;
-		this.color = color;
+		this.strokeColor = strokeColor;
 		this.thickness = thickness;
 	}
 
 	@Override
 	public void draw(Canvas canvas, Paint paint)
 	{
+		Log.i("Draw","Line shape draw method was called");
 		canvas.drawLine(startX, startY, endX, endY, paint);
 	}
 
@@ -46,57 +48,38 @@ public class Line implements Shape
 	@Override
 	public int getStrokeColor()
 	{
-		return 0;
+		return this.strokeColor;
 	}
 
 	@Override
 	public void setStrokeColor(int strokeColor)
 	{
-
+		this.strokeColor = strokeColor;
 	}
 
-	//	@Override
+	@Override
 	public int getColor()
 	{
-		return 0;
+		//TODO USE STROKE COLOR INSTEAD OF GET COLOR
+		return this.strokeColor;
 	}
 
 	@Override
 	public int getThickness()
 	{
-		return 0;
+		return this.thickness;
 	}
 
 	@Override
 	public void onDraw(MotionEvent event)
 	{
-		if (event.getAction() == MotionEvent.ACTION_DOWN)
-		{
-			int x = (int) event.getX();
-			int y = (int) event.getY();
-			isDrawing = true;
-		}
-		else if (event.getAction() == MotionEvent.ACTION_UP)
-		{
-			isDrawing = false;
-			//TODO: WHY DO WE NEED TO TRACK A SHAPE SIZE?
-			// shapePositions.push(shapes.size());
-		}
-		else if (event.getAction() == MotionEvent.ACTION_MOVE)
-		{
-			if (isDrawing)
-			{
-				this.endX = ((int) event.getX());
-				this.endY = ((int) event.getY());
-			}
-		}
+
 	}
 
 	@Override
 	public PAINT_STYLE getPaintStyle()
 	{
-		// TODO NEED TO IMPLEMENT THIS FUNCTION
-		return null;
+		return this.paintStyle;
 	}
 
 

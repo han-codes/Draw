@@ -11,49 +11,46 @@ public class Rectangle implements Shape
 {
 	private Rect rect;
 	private int color;
+	private int strokeColor;
+	private int fillColor;
 
 
-//	Rectangle(int left, int top, int right, int bottom)
-//	{
-//		rect = new Rect(left, top, right, bottom);
-//	}
-
-	Rectangle(int color, int left, int top, int right, int bottom){
-		rect = new Rect(left, top, right, bottom);
-		this.color = color;
+	Rectangle(int fillColor, int left, int top, int right, int bottom){
+		this.rect = new Rect(left, top, right, bottom);
+		this.fillColor = fillColor;
 	}
 
 	@Override
 	public void draw(Canvas canvas, Paint paint)
 	{
-
 		canvas.drawRect(this.rect, paint);
 	}
 
 	@Override
 	public int getFillColor() {
-		return 0;
+		return this.fillColor;
 	}
 
 	@Override
 	public void setFillColor(int fillColor) {
-
+		this.fillColor = fillColor;
 	}
 
 	@Override
 	public int getStrokeColor() {
-		return 0;
+		return this.strokeColor;
 	}
 
 	@Override
 	public void setStrokeColor(int strokeColor) {
-
+		this.strokeColor = strokeColor;
 	}
 
 //	@Override
 	public int getColor()
 	{
-		return 0;
+		// TODO USE GET FILL COLOR METHOD
+		return this.fillColor;
 	}
 
 	@Override
@@ -75,11 +72,11 @@ public class Rectangle implements Shape
 	}
 
 	public void setRight(int right){
-		rect.right = right;
+		this.rect.right = right;
 	}
 
 	public void setBottom(int bottom){
-		rect.bottom = bottom;
+		this.rect.bottom = bottom;
 	}
 
 	public void setColor(int color){

@@ -3,6 +3,7 @@ package com.csci4020.draw;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 import android.view.MotionEvent;
 
 public class FreePath extends Path implements Shape
@@ -10,7 +11,7 @@ public class FreePath extends Path implements Shape
 	private Path path;
 	public int color;
 	public int strokeWidth;
-	private PAINT_STYLE paintStyle = PAINT_STYLE.STROKE_ONLY;
+	private PAINT_STYLE paintStyle = PAINT_STYLE.FILL_ONLY;
 
 	public FreePath()
 	{
@@ -22,6 +23,7 @@ public class FreePath extends Path implements Shape
 	@Override
 	public void draw(Canvas canvas, Paint paint)
 	{
+		Log.i("Draw","Color for path is: " + paint.getColor());
 		canvas.drawPath(this, paint); // TODO EXTENDING PATH AND SENDING "this" IS THE TRICK HERE
 	}
 

@@ -53,7 +53,7 @@ public class PaintArea extends View
 
 	private TOOLS currentTool = TOOLS.BRUSH;
 	private Canvas canvas;
-	private int currentColor = Color.BLACK;
+	private int currentColor = 0xFFCCCCCC;
 	private int strokeWidth = 2;
 	private Paint backgroundPaint;
 	private Paint mainPaint;
@@ -186,17 +186,20 @@ public class PaintArea extends View
 		for (Shape s : shapeStack)
 		{
 			// TODO THIS IS CHECKING IF IT IS PAINTING A FILL OR STROKE
-			if (s.getPaintStyle() == PAINT_STYLE.STROKE_ONLY)
+			if (s.getPaintStyle() == PAINT_STYLE.FILL_ONLY)
 			{
-				Log.i("Draw","Stroke only is the paint style");
+				Log.i("Draw","Fill only is the paint style");
 				// TODO THIS SEEMS LIKE IT'S DUPLICATING THE SAME STEP. ??
 				mainPaint.setColor(s.getFillColor());
 				s.draw(canvas, mainPaint);
 			}
-			else if (s.getPaintStyle() == PAINT_STYLE.FILL_ONLY)
+			else if (s.getPaintStyle() == PAINT_STYLE.STROKE_ONLY)
 			{
-				linePaint.setColor(s.getColor());
+				Log.i("Draw","Stroke only is the paint style");
+				linePaint.setColor(s.getStrokeColor());
+				Log.i("Draw","Stroke Color: " + linePaint.getColor());
 				linePaint.setStrokeWidth(s.getThickness());
+				Log.i("Draw","Stroke thickness: " + linePaint.getStrokeWidth());
 				s.draw(canvas, linePaint);
 			}
 		}
@@ -336,6 +339,7 @@ public class PaintArea extends View
 			case RECTANGLE:
 				onDrawRectangle(event);
 			case LINE:
+				Log.i("Draw","Going to use the line");
 				onDrawLine(event);
 		}
 
@@ -387,12 +391,15 @@ public class PaintArea extends View
 				Line line = new Line(x, y, x + 1, y + 1, currentColor, strokeWidth);
 				shapeStack.push(line);
 				isDrawing = true;
+				Log.i("Draw","Action down ondrawline");
 			case MotionEvent.ACTION_UP:
 				isDrawing = false;
 				shapePosition.push(shapeStack.size());
+				Log.i("Draw","Action up ondrawline");
 			case MotionEvent.ACTION_MOVE:
 				if (isDrawing)
 				{
+					Log.i("Draw","Action move and drawing ondrawline");
 					((Line) shapeStack.peek()).setEndx(((int) event.getX()));
 					((Line) shapeStack.peek()).setEndy(((int) event.getY()));
 				}
