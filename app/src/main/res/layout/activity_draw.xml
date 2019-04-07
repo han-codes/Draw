@@ -166,7 +166,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:cornerRadius="10"
         app:defaultValue="5"
         app:layout_constraintBottom_toTopOf="@+id/paintArea"
         app:layout_constraintEnd_toStartOf="@+id/textView2"
