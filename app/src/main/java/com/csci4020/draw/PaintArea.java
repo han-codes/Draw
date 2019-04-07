@@ -338,9 +338,11 @@ public class PaintArea extends View
 				break;
 			case RECTANGLE:
 				onDrawRectangle(event);
+				break;
 			case LINE:
 				Log.i("Draw","Going to use the line");
 				onDrawLine(event);
+				break;
 		}
 
 		return true;
