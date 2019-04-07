@@ -59,7 +59,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 		if (savedInstanceState != null)
 		{
 			paintArea.setShapes((Stack) savedInstanceState.getSerializable(KEY_SHAPES));
-			paintArea.setShapePosition((Stack) savedInstanceState.getSerializable(KEY_SHAPE_POSITIONS));
+			paintArea.setShapePositions((Stack) savedInstanceState.getSerializable(KEY_SHAPE_POSITIONS));
 
 			// bitmap
 			Bitmap bmp = null;
@@ -174,7 +174,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 			@Override
 			public void onClick(View view)
 			{
-				paintArea.setCurrentTool(TOOLS.STICKER);
+				paintArea.setCurrentTool(PaintArea.STICKER_FEATURE);
 				stickerAlert.show();
 			}
 		});
@@ -202,13 +202,13 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 		switch (checkedId)
 		{
 			case R.id.radioButton_brush:
-				paintArea.setCurrentTool(TOOLS.BRUSH);
+				paintArea.setCurrentTool(PaintArea.BRUSH_FEATURE);
 				break;
 			case R.id.radioButton_line:
-				paintArea.setCurrentTool(TOOLS.LINE);
+				paintArea.setCurrentTool(PaintArea.LINE_FEATURE);
 				break;
 			case R.id.radioButton_square:
-				paintArea.setCurrentTool(TOOLS.RECTANGLE);
+				paintArea.setCurrentTool(PaintArea.RECTANGLE_FEATURE);
 				break;
 			case R.id.radioButton_sticker:
 				break;
