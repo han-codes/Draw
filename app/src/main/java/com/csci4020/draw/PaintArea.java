@@ -74,6 +74,8 @@ public class PaintArea extends View
 
 
 	public static final int STAR_STICKER = 1;
+    public static final int STICKER_LEAF = 2;
+    public static final int STICKER_LEE = 3;
 
 
 
@@ -141,18 +143,49 @@ public class PaintArea extends View
 	// TODO: FINISH SETUP
 	private void setupStickerBitmaps()
 	{
-		Drawable androidDrawable = getResources().getDrawable((R.drawable.star));
+//		Drawable androidDrawable = getResources().getDrawable((R.drawable.star));
+//
+//		int size = (int) Helper.convertDpToPx(50, getContext());
+//
+//		stickerStar = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+//
+//		Canvas canvas = new Canvas(stickerStar);
+//		androidDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+//		androidDrawable.draw(canvas);
+//
+//		currentBitmap = stickerStar;
 
-		int size = (int) Helper.convertDpToPx(50, getContext());
+        Drawable androidDrawable = getResources().getDrawable((R.drawable.star));
 
-		stickerStar = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        int size = (int) Helper.convertDpToPx(50, getContext());
+        stickerStar = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 
-		Canvas canvas = new Canvas(stickerStar);
-		androidDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-		androidDrawable.draw(canvas);
+        Canvas canvas = new Canvas(stickerStar);
+        androidDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        androidDrawable.draw(canvas);
 
-		currentBitmap = stickerStar;
-	}
+
+        Drawable leeDrawable = getResources().getDrawable((R.drawable.lee));
+
+        stickerLee = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas2 = new Canvas(stickerLee);
+        leeDrawable.setBounds(0, 0, canvas2.getWidth(), canvas2.getHeight());
+        leeDrawable.draw(canvas2);
+
+
+
+        Drawable leafDrawable = getResources().getDrawable((R.drawable.leaves));
+
+        stickerLeaf = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas3 = new Canvas(stickerLeaf);
+        leafDrawable.setBounds(0, 0, canvas3.getWidth(), canvas3.getHeight());
+        leafDrawable.draw(canvas3);
+
+        currentBitmap = stickerStar;
+
+    }
 
 
 	/**
@@ -162,12 +195,17 @@ public class PaintArea extends View
 	public void setSticker(int stickerId)
 	{
 
-		switch (stickerId)
-		{
-			case STAR_STICKER:
-				currentBitmap = stickerStar;
-				break;
-		}
+        switch(stickerId){
+            case STAR_STICKER:
+                currentBitmap = stickerStar;
+                break;
+            case STICKER_LEAF:
+                currentBitmap = stickerLeaf;
+                break;
+            case STICKER_LEE:
+                currentBitmap = stickerLee;
+                break;
+        }
 	}
 
 	//
@@ -376,44 +414,84 @@ public class PaintArea extends View
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-		if (event.getAction() == MotionEvent.ACTION_DOWN)
-		{
-			performClick();
-		}
-
-		float x = event.getX();
-		float y = event.getY();
-
-		switch (currentTool)
-		{
-			case BRUSH_FEATURE:
-				switch (event.getAction())
-				{
-					case MotionEvent.ACTION_DOWN:
-						startPath(x, y);
-						invalidate();
-						break;
-					case MotionEvent.ACTION_MOVE:
-						continuePath(x, y);
-						invalidate();
-						break;
-					case MotionEvent.ACTION_UP:
-						stopPath(x, y);
-						shapePosition.push(shapes.size());
-						invalidate();
-						break;
-				}
-				break;
-			case RECTANGLE_FEATURE:
-				onDrawRectangle(event);
-			case LINE_FEATURE:
-				Log.i("Draw","Going to use the line");
-				onDrawLine(event);
-//			case TOOL_FEATURE:
+//		if (event.getAction() == MotionEvent.ACTION_DOWN)
+//		{
+//			performClick();
+//		}
+//
+//		float x = event.getX();
+//		float y = event.getY();
+//
+//		switch (currentTool)
+//		{
+//			case BRUSH_FEATURE:
+//				switch (event.getAction())
+//				{
+//					case MotionEvent.ACTION_DOWN:
+//						startPath(x, y);
+//						invalidate();
+//						break;
+//					case MotionEvent.ACTION_MOVE:
+//						continuePath(x, y);
+//						invalidate();
+//						break;
+//					case MotionEvent.ACTION_UP:
+//						stopPath(x, y);
+//						shapePosition.push(shapes.size());
+//						invalidate();
+//						break;
+//				}
+//				break;
+//			case RECTANGLE_FEATURE:
+//				onDrawRectangle(event);
+//			case LINE_FEATURE:
+//				Log.i("Draw","Going to use the line");
+//				onDrawLine(event);
+//			case STICKER_FEATURE:
 //				onDrawSticker(event);
-		}
+//		}
+//
+//		return true;
 
-		return true;
+        if (event.getAction() == MotionEvent.ACTION_DOWN){
+            performClick();         //needed by android studio to handle normal click event stuff
+        }
+
+        float x = event.getX();
+        float y = event.getY();
+
+//        Log.i(TAG_PICT_DRAW, "x = " + x + ", y = " + y);
+
+        if (currentTool == BRUSH_FEATURE) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    startPath(x, y);
+                    invalidate();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    continuePath(x, y);
+                    invalidate();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    stopPath(x, y);
+//                    compressDrawnLines();
+                    shapePosition.push(shapes.size());
+                    invalidate();
+                    break;
+            }
+        }
+
+        if (currentTool == RECTANGLE_FEATURE){
+            onDrawRectangle(event);
+        }
+        if (currentTool == LINE_FEATURE){
+            onDrawLine(event);
+        }
+        if (currentTool == STICKER_FEATURE){
+            onDrawSticker(event);
+        }
+
+        return true;
 	}
 
 
@@ -446,30 +524,51 @@ public class PaintArea extends View
 	private void onDrawLine(MotionEvent event)
 	{
 
-		switch (event.getAction())
-		{
-			case MotionEvent.ACTION_DOWN:
-				int x = (int) event.getX();
-				int y = (int) event.getY();
+//		switch (event.getAction())
+//		{
+//			case MotionEvent.ACTION_DOWN:
+//				int x = (int) event.getX();
+//				int y = (int) event.getY();
+//
+//				Line line = new Line(x, y, x + 1, y + 1, color, thickness);
+//				shapes.push(line);
+//				isDrawing = true;
+//				Log.i("Draw","Action down ondrawline");
+//			case MotionEvent.ACTION_UP:
+//				isDrawing = false;
+//				shapePosition.push(shapes.size());
+//				Log.i("Draw","Action up ondrawline");
+//			case MotionEvent.ACTION_MOVE:
+//				if (isDrawing)
+//				{
+//					Log.i("Draw","Action move and drawing ondrawline");
+//
+////					((Line) shapes.peek()).setEndx(((int) event.getX()));
+////					((Line) shapes.peek()).setEndy(((int) event.getY()));
+//				}
+//		}
+//
+//		invalidate();
 
-				Line line = new Line(x, y, x + 1, y + 1, color, thickness);
-				shapes.push(line);
-				isDrawing = true;
-				Log.i("Draw","Action down ondrawline");
-			case MotionEvent.ACTION_UP:
-				isDrawing = false;
-				shapePosition.push(shapes.size());
-				Log.i("Draw","Action up ondrawline");
-			case MotionEvent.ACTION_MOVE:
-				if (isDrawing)
-				{
-					Log.i("Draw","Action move and drawing ondrawline");
-					((Line) shapes.peek()).setEndx(((int) event.getX()));
-					((Line) shapes.peek()).setEndy(((int) event.getY()));
-				}
-		}
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
 
-		invalidate();
+            Line line = new Line(x, y, x+1, y+1, color, thickness);
+            shapes.push(line);
+            isDrawing = true;
+        }
+        else if (event.getAction() == MotionEvent.ACTION_UP){
+            isDrawing = false;
+            shapePosition.push(shapes.size());
+        }
+        else if (event.getAction() == MotionEvent.ACTION_MOVE){
+            if (isDrawing) {
+                ((Line) shapes.peek()).setEndx(((int) event.getX()));
+                ((Line) shapes.peek()).setEndy(((int) event.getY()));
+            }
+        }
+        invalidate();
 	}
 
 	private void onDrawRectangle(MotionEvent event)

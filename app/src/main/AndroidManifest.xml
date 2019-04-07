@@ -23,6 +23,7 @@
             android:name=".DrawActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".EmailActivity"></activity>
     </application>
 
 </manifest>
