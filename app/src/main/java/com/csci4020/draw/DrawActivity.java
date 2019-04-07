@@ -25,15 +25,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Stack;
 
+import abak.tr.com.boxedverticalseekbar.BoxedVertical;
+
 public class DrawActivity extends Activity implements RadioGroup.OnCheckedChangeListener
 {
-	PaintArea paintArea;
+
+    private final static String TAG_DRAW_ACT = "TAG_DRAW_ACT";
+    private final static int REQUEST_PHOTO = 100;
+    private final static int REQUEST_EMAIL = 101;
 
 	private final static String KEY_SHAPES = "KEY_SHAPES";
 	private final static String KEY_SHAPE_POSITIONS = "KEY_SHAPE_POSITIONS";
 	private final static String KEY_BITMAP = "KEY_BITMAP";
-
-	private final static int REQUEST_PHOTO = 100;
 
 	File file;
 	File publicFile = null;
@@ -41,7 +44,16 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 	String fileLocation = null;
 	FileOutputStream publicFos;
 
+
+    Bitmap bitmap;
+    Bitmap alteredBitmap;
+
 	AlertDialog stickerAlert;
+
+    PaintArea paintArea;
+
+    BoxedVertical brushThickness;
+    LinearLayout colorIndicator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
