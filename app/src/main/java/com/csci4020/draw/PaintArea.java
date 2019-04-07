@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -49,7 +48,7 @@ public class PaintArea extends View
 	private Paint backgroundPaint;
 	private Paint mainPaint;
 	private Paint linePaint;
-	private Path path;
+	private android.graphics.Path path;
 	Canvas canvas;
 	Matrix matrix;
 	Bitmap bitmap;
@@ -68,7 +67,7 @@ public class PaintArea extends View
 
 	Stack<Shape> shapes;
 	public Stack<Integer> shapePosition;
-	ArrayList<Path> paths;
+	ArrayList<android.graphics.Path> paths;
 
 	public PaintArea(Context context)
 	{
@@ -115,7 +114,7 @@ public class PaintArea extends View
 		linePaint.setStrokeJoin(Paint.Join.ROUND);
 
 
-		path = new Path();
+		path = new android.graphics.Path();
 
 		setupStickerBitmaps();
 	}
@@ -519,7 +518,7 @@ public class PaintArea extends View
 	{
 		Log.i("Draw", "Began a free path");
 		// Set up a temporary path
-		MyPath temporaryPath = new MyPath();
+		Path temporaryPath = new Path();
 		temporaryPath.setColor(color);
 		temporaryPath.setStrokeWidth(strokeWidth);
 		temporaryPath.moveTo(x, y);
@@ -531,7 +530,7 @@ public class PaintArea extends View
 	public void continuePath(float x, float y)
 	{
 		Log.i("Draw", "Continuing the free path");
-		MyPath temporaryPath = (MyPath)shapes.get(shapes.size() - 1);
+		Path temporaryPath = (Path)shapes.get(shapes.size() - 1);
 
 		if (Math.abs(currentX - x) >= 4 || Math.abs(currentY - y) >= 4)
 		{
@@ -550,7 +549,7 @@ public class PaintArea extends View
 	public void stopPath(float x, float y)
 	{
 		Log.i("Draw", "Finished a free path");
-		MyPath temporaryPath = (MyPath)shapes.get(shapes.size()-1);
+		Path temporaryPath = (Path)shapes.get(shapes.size()-1);
 		temporaryPath.lineTo(x, y);
 		currentX = x;
 		currentY = y;
@@ -574,8 +573,9 @@ public class PaintArea extends View
 	public void undo()
 	{
 
-		MyPath path = null;
+//		Path path = null;
 
+		path = null;
 		if (shapes.size() >= 1 && shapePosition.size() >= 2)
 		{
 
@@ -714,18 +714,18 @@ class Line implements Shape{
 //==============================================================================================
 //=     MYPATH
 //==============================================================================================
-class MyPath implements Shape {
-	private Path path;
+class Path implements Shape {
+	private android.graphics.Path path;
 	private int color;
 	private int strokeWidth;
 
-	public Path getPath() {
-		return path;
-	}
-
-	public void setPath(Path path) {
-		this.path = path;
-	}
+//	public android.graphics.Path getPath() {
+//		return path;
+//	}
+//
+//	public void setPath(android.graphics.Path path) {
+//		this.path = path;
+//	}
 
 	public void setColor(int color) {
 		this.color = color;
@@ -735,17 +735,17 @@ class MyPath implements Shape {
 		this.strokeWidth = strokeWidth;
 	}
 
-	public MyPath(){
-		this.path = new Path();
+	public Path(){
+		this.path = new android.graphics.Path();
 		this.color = 0xFF000000; // default to black
 		this.strokeWidth = 5;
 	}
 
-	public MyPath(Path path, int color, int strokeWidth) {
-		this.path = path;
-		this.color = color;
-		this.strokeWidth = strokeWidth;
-	}
+//	public Path(android.graphics.Path path, int color, int strokeWidth) {
+//		this.path = path;
+//		this.color = color;
+//		this.strokeWidth = strokeWidth;
+//	}
 
 	public void draw(Canvas canvas, Paint paint){
 		canvas.drawPath(path, paint);
@@ -802,17 +802,17 @@ class Sticker implements Shape {
         return 1;
     }
 
-	public int getX() {
-		return x;
-	}
+//	public int getX() {
+//		return x;
+//	}
 
 	public void setX(int x) {
 		this.x = x;
 	}
 
-	public int getY() {
-		return y;
-	}
+//	public int getY() {
+//		return y;
+//	}
 
 	public void setY(int y) {
 		this.y = y;
