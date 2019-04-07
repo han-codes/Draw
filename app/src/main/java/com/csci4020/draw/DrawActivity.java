@@ -3,7 +3,6 @@ package com.csci4020.draw;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,13 +14,10 @@ import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -36,7 +32,6 @@ import abak.tr.com.boxedverticalseekbar.BoxedVertical;
 
 public class DrawActivity extends Activity implements RadioGroup.OnCheckedChangeListener {
 
-//    private final static String TAG_DRAW_ACT = "TAG_DRAW_ACT";
     private final static int REQUEST_PHOTO = 100;
     private final static int REQUEST_EMAIL = 101;
 
@@ -50,24 +45,20 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
     String fileLocation = null;
     FileOutputStream publicFos;
 
-
     Bitmap bitmap;
     Bitmap alteredBitmap;
 
     AlertDialog stickerAlert;
-
     PaintArea paintArea;
-
     BoxedVertical brushThickness;
-//    LinearLayout colorIndicator;
     ConstraintLayout colorIndicator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_draw);
 
-        // Identify the paint area
         paintArea = findViewById(R.id.paintArea);
         paintArea.setDrawingCacheEnabled(true);
 
@@ -77,20 +68,18 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
             paintArea.setShapes((Stack) savedInstanceState.getSerializable(KEY_SHAPES));
             paintArea.setShapePositions((Stack) savedInstanceState.getSerializable(KEY_SHAPE_POSITIONS));
 
-            // bitmap
-            Bitmap bmp = null;
+            Bitmap bitmap = null;
             String filename = savedInstanceState.getString(KEY_BITMAP, "");
 
             if (!filename.equals("")) {
                 try {
-                    FileInputStream fis = this.openFileInput(filename);
-                    bmp = BitmapFactory.decodeStream(fis);
-                    fis.close();
-//                    Log.i(TAG_DRAW_ACT, "bmp = " + bmp);
+                    FileInputStream fileInputStream = this.openFileInput(filename);
+                    bitmap = BitmapFactory.decodeStream(fileInputStream);
+                    fileInputStream.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                paintArea.setNewImage(bmp, bmp);
+                paintArea.setNewImage(bitmap, bitmap);
             }
         }
     }
@@ -127,9 +116,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
             }
         });
 
-
-        stickerAlert = setupStickerDialog();
-
         final AlertDialog alert = setupColorDialog();
 
         findViewById(R.id.color_picker_button).setOnClickListener(new View.OnClickListener() {
@@ -155,14 +141,14 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
             }
         });
 
-        // set listeners to Radio Group
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(this);
+
+        stickerAlert = setupStickerDialog();
 
         findViewById(R.id.radioButton_sticker).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                paintArea.setCurrentTool(PaintArea.STICKER_FEATURE);
                 paintArea.setCurrentTool(TOOLS.STICKER.getNumbericType());
                 stickerAlert.show();
             }
@@ -175,9 +161,11 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
             }
         });
 
+
+
         publicDirectory = getPublicFile();
 
-        brushThickness = (BoxedVertical) findViewById(R.id.boxedvertical_thickness);
+        brushThickness = findViewById(R.id.boxedvertical_thickness);
 
         brushThickness.setOnBoxedPointsChangeListener(new BoxedVertical.OnValuesChangeListener() {
             @Override
@@ -208,7 +196,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         AlertDialog.Builder builder = new AlertDialog.Builder(DrawActivity.this);
 
         builder.setView(stickerAlert);
-        builder.setTitle("Choose a Sticker");
+        builder.setTitle("Select Sticker");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -301,7 +289,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 
     private void verifyEditText(EditText e){
         if (e.getText().toString().equals("")){
-//            Helpers.makeToast("Putting 0 for unfilled color slots...", getApplicationContext());
             e.setText("0");
         }
     }
@@ -365,7 +352,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
             b.setOnFocusChangeListener(new focusChangeListener());
         }
 
-    // TODO: Set up seek bars
     private void setupSeekBars(View alertView, final EditText r, final EditText g, final EditText b, final View colorShow){
         class SeekBarListener implements SeekBar.OnSeekBarChangeListener {
             EditText e;
@@ -391,7 +377,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         ((SeekBar)alertView.findViewById(R.id.seekBar_b)).setOnSeekBarChangeListener(new SeekBarListener(b));
     }
 
-    // TODO: Update Color Show
     private void updateColorShow(View colorShow, EditText r, EditText g, EditText b){
         colorShow.setBackgroundColor(Helper.rgbToHex(r, g, b));
     }
@@ -410,7 +395,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 		this.fileLocation = MediaStore.Images.Media.insertImage(getContentResolver(), paintArea.getDrawingCache(), "title.png", "desc123");
 
 		Log.i("File Location", "this.fileLocation = " + this.fileLocation);
-
 		Toast.makeText(getApplicationContext(), "Saved to Gallery", Toast.LENGTH_SHORT).show();
 	}
 
@@ -418,12 +402,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
     {
         String albumName = "TEST ALBUM";
         File publicFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albumName);
-        if(!publicFile.mkdirs()){
-//            Log.e(TAG_DRAW_ACT,"Dir not created");
-        } else {
-//            Log.i(TAG_DRAW_ACT,"[YES] Dir created");
 
-        }
         return file;
     }
 
@@ -459,8 +438,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 		}
 	}
 
-
-
 	public File getPublicAlbumStorageDirectory(String albumName)
 	{
 		// Get the directory for the user's public pictures directory.
@@ -480,7 +457,6 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 
         if (resultCode == RESULT_OK){
             if ( requestCode == REQUEST_PHOTO ){
-
                 try {
                     Uri dataUri = data.getData();
                     BitmapFactory.Options bfo = new BitmapFactory.Options();
@@ -489,14 +465,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
                     bfo.inJustDecodeBounds = false;
                     bfo.inMutable = true;
                     bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(dataUri), null, bfo);
-
-//                    Log.i(TAG_DRAW_ACT, "bitmap.getWidth() = " + bitmap.getWidth());
-//                    Log.i(TAG_DRAW_ACT, "bitmap.getHeight() = " + bitmap.getHeight());
-
                     alteredBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
-
-//                    Log.i(TAG_DRAW_ACT, "alteredBitmap.getWidth() = " + alteredBitmap.getWidth());
-//                    Log.i(TAG_DRAW_ACT, "alteredBitmap.getHeight() = " + alteredBitmap.getHeight());
 
                     paintArea.setNewImage(alteredBitmap, bitmap);
                 } catch (FileNotFoundException e) {
@@ -504,12 +473,7 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
                 }
 
             }
-            if (requestCode == REQUEST_EMAIL){
-//                emailImage();
-//                Log.i(TAG_DRAW_ACT, "REQUEST_EMAIL");
-            }
         }
 
     }
-	// MARK: - Dealing with stickers
 }

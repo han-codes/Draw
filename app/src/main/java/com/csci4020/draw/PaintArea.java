@@ -44,13 +44,8 @@ public class PaintArea extends View
 	private float currentX;
 	private float currentY;
 
-
-
-
-
 	private int color;
-//	private int strokeWidth = 2;
- 	private int thickness = 2;
+ 	private int strokeWidth = 2;
 	private Paint backgroundPaint;
 	private Paint mainPaint;
 	private Paint linePaint;
@@ -71,14 +66,9 @@ public class PaintArea extends View
     public static final int STICKER_LEAF = 2;
     public static final int STICKER_LEE = 3;
 
-
-
-//	Stack<Shape> shapeStack = new Stack<>();
 	Stack<Shape> shapes;
 	public Stack<Integer> shapePosition;
 	ArrayList<Path> paths;
-
-
 
 	public PaintArea(Context context)
 	{
@@ -121,7 +111,7 @@ public class PaintArea extends View
 		linePaint = new Paint();
 		linePaint.setColor(color);
 		linePaint.setStyle(Paint.Style.STROKE);
-		linePaint.setStrokeWidth(thickness);
+		linePaint.setStrokeWidth(strokeWidth);
 		linePaint.setStrokeJoin(Paint.Join.ROUND);
 
 
@@ -170,6 +160,9 @@ public class PaintArea extends View
 
     }
 
+    //
+    // MARK: - Getters/Setters
+    //
 
 	/**
 	 * Set current bitmap to selected sticker
@@ -191,12 +184,10 @@ public class PaintArea extends View
         }
 	}
 
-	//
-	// MARK: - Getters/Setters
-	//
+
 	public void setStrokeThickness(int dpSize)
 	{
-		thickness = (int) Helper.convertDpToPx(dpSize, getContext());
+		strokeWidth = (int) Helper.convertDpToPx(dpSize, getContext());
 	}
 
 
@@ -276,8 +267,8 @@ public class PaintArea extends View
 				Log.i("Draw","Stroke only is the paint style");
 				linePaint.setColor(s.getColor());
 				Log.i("Draw","Stroke Color: " + linePaint.getColor());
-				linePaint.setStrokeWidth(s.getThickness());
-				Log.i("Draw","Stroke thickness: " + linePaint.getStrokeWidth());
+				linePaint.setStrokeWidth(s.getStrokeWidth());
+				Log.i("Draw","Stroke width: " + linePaint.getStrokeWidth());
 				s.draw(canvas, linePaint);
 			}
 		}
@@ -441,7 +432,7 @@ public class PaintArea extends View
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-            Line line = new Line(x, y, x+1, y+1, color, thickness);
+            Line line = new Line(x, y, x+1, y+1, color, strokeWidth);
             shapes.push(line);
             isDrawing = true;
         }
@@ -530,7 +521,7 @@ public class PaintArea extends View
 		// Set up a temporary path
 		MyPath temporaryPath = new MyPath();
 		temporaryPath.setColor(color);
-		temporaryPath.setThickness(thickness);
+		temporaryPath.setStrokeWidth(strokeWidth);
 		temporaryPath.moveTo(x, y);
 		currentX = x;
 		currentY = y;
@@ -613,7 +604,7 @@ public class PaintArea extends View
 interface Shape{
 	void draw(Canvas canvas, Paint paint);
 	int getColor();
-	int getThickness();
+	int getStrokeWidth();
 
 	int PAINT_FILL = 1;
 	int PAINT_STROKE = 0;
@@ -653,11 +644,15 @@ class Rectangle implements Shape{
 		return color;
 	}
 
-	public Rect getRect(){
+    @Override
+    public int getStrokeWidth() {
+        return 1;
+    }
+
+    public Rect getRect(){
 		return rect;
 	}
 
-	public int getThickness(){return 1;};
 
 	@Override
 	public int getPaintToUse() {
@@ -675,18 +670,18 @@ class Line implements Shape{
 	private int endx;
 	private int endy;
 	private int color;
-	private int thickness;
+	private int strokeWidth;
 
 
 
-	public Line(int startx, int starty, int endx, int endy, int color, int thickness) {
+	public Line(int startx, int starty, int endx, int endy, int color, int strokeWidth) {
 		this.startx = startx;
 		this.starty = starty;
 		this.endx = endx;
 
 		this.endy = endy;
 		this.color = color;
-		this.thickness = thickness;
+		this.strokeWidth = strokeWidth;
 	}
 
 	public void draw(Canvas canvas, Paint paint){
@@ -701,15 +696,16 @@ class Line implements Shape{
 		this.endy = endy;
 	}
 
-	public int getThickness() {
-		return thickness;
-	}
-
 	public int getColor(){
 		return color;
 	}
 
-	@Override
+    @Override
+    public int getStrokeWidth() {
+        return strokeWidth;
+    }
+
+    @Override
 	public int getPaintToUse() {
 		return PAINT_STROKE;
 	}
@@ -721,7 +717,7 @@ class Line implements Shape{
 class MyPath implements Shape {
 	private Path path;
 	private int color;
-	private int thickness;
+	private int strokeWidth;
 
 	public Path getPath() {
 		return path;
@@ -735,20 +731,20 @@ class MyPath implements Shape {
 		this.color = color;
 	}
 
-	public void setThickness(int thickness){
-		this.thickness = thickness;
+	public void setStrokeWidth(int strokeWidth){
+		this.strokeWidth = strokeWidth;
 	}
 
 	public MyPath(){
 		this.path = new Path();
 		this.color = 0xFF000000; // default to black
-		this.thickness = 5;
+		this.strokeWidth = 5;
 	}
 
-	public MyPath(Path path, int color, int thickness) {
+	public MyPath(Path path, int color, int strokeWidth) {
 		this.path = path;
 		this.color = color;
-		this.thickness = thickness;
+		this.strokeWidth = strokeWidth;
 	}
 
 	public void draw(Canvas canvas, Paint paint){
@@ -760,7 +756,11 @@ class MyPath implements Shape {
 		return color;
 	}
 
-	public int getThickness(){return thickness;};
+    @Override
+    public int getStrokeWidth() {
+        return strokeWidth;
+    }
+
 
 	@Override
 	public int getPaintToUse() {
@@ -797,10 +797,10 @@ class Sticker implements Shape {
 		return 0xff000000;
 	}
 
-	@Override
-	public int getThickness() {
-		return 1;
-	}
+    @Override
+    public int getStrokeWidth() {
+        return 1;
+    }
 
 	public int getX() {
 		return x;
