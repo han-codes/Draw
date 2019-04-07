@@ -17,40 +17,36 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
-//enum TOOLS
-//{
-//	BRUSH,
-//	RECTANGLE,
-//	LINE,
-//	STICKER
-//}
+enum TOOLS
+{
+	BRUSH(1),
+	RECTANGLE(2),
+	LINE(3),
+	STICKER(4);
 
-//enum PAINT_STYLE
-//{
-//	FILL_ONLY,
-//	STROKE_ONLY,
-//	FILL_AND_STROKE
-//}
+	TOOLS (int i ) {
+	    this.type = i;
+    }
+
+    private int type;
+
+	public int getNumbericType(){
+	    return type;
+    }
+}
 
 public class PaintArea extends View
 {
-	// Each RadioButton feature is given an int value
-	public static final int BRUSH_FEATURE = 1;
-	public static final int LINE_FEATURE = 2;
-	public static final int RECTANGLE_FEATURE = 3;
-	public static final int STICKER_FEATURE = 4;
+    private int currentTool = TOOLS.BRUSH.getNumbericType();
 
-	// Initial selected feature is the brush
-	private int currentFeature = BRUSH_FEATURE;
 	private int currentHeight;
 	private int currentWidth;
 	private float currentX;
 	private float currentY;
 
 
-	private Random random;
 
-	private int currentTool = BRUSH_FEATURE;
+
 
 	private int color;
 //	private int strokeWidth = 2;
@@ -69,6 +65,7 @@ public class PaintArea extends View
 	Bitmap stickerLee;
 	Bitmap stickerLeaf;
 
+    private Random random;
 
 	public static final int STAR_STICKER = 1;
     public static final int STICKER_LEAF = 2;
@@ -404,7 +401,7 @@ public class PaintArea extends View
 
 //        Log.i(TAG_PICT_DRAW, "x = " + x + ", y = " + y);
 
-        if (currentTool == BRUSH_FEATURE) {
+        if (currentTool == TOOLS.BRUSH.getNumbericType()) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     startPath(x, y);
@@ -423,13 +420,13 @@ public class PaintArea extends View
             }
         }
 
-        if (currentTool == RECTANGLE_FEATURE){
+        if (currentTool == TOOLS.RECTANGLE.getNumbericType()){
             onDrawRectangle(event);
         }
-        if (currentTool == LINE_FEATURE){
+        if (currentTool == TOOLS.LINE.getNumbericType()){
             onDrawLine(event);
         }
-        if (currentTool == STICKER_FEATURE){
+        if (currentTool == TOOLS.STICKER.getNumbericType()){
             onDrawSticker(event);
         }
 

@@ -162,7 +162,8 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         findViewById(R.id.radioButton_sticker).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                paintArea.setCurrentTool(PaintArea.STICKER_FEATURE);
+//                paintArea.setCurrentTool(PaintArea.STICKER_FEATURE);
+                paintArea.setCurrentTool(TOOLS.STICKER.getNumbericType());
                 stickerAlert.show();
             }
         });
@@ -244,15 +245,16 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
         switch (checkedId)
         {
             case R.id.radioButton_brush:
-                paintArea.setCurrentTool(PaintArea.BRUSH_FEATURE);
+                paintArea.setCurrentTool(TOOLS.BRUSH.getNumbericType());
                 break;
             case R.id.radioButton_line:
-                paintArea.setCurrentTool(PaintArea.LINE_FEATURE);
+                paintArea.setCurrentTool(TOOLS.LINE.getNumbericType());
                 break;
             case R.id.radioButton_square:
-                paintArea.setCurrentTool(PaintArea.RECTANGLE_FEATURE);
+                paintArea.setCurrentTool(TOOLS.RECTANGLE.getNumbericType());
                 break;
             case R.id.radioButton_sticker:
+                paintArea.setCurrentTool(TOOLS.STICKER.getNumbericType());
                 break;
             case R.id.radioButton_frame:
                 break;
