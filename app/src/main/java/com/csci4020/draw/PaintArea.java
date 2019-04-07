@@ -41,7 +41,6 @@ public class PaintArea extends View
 	public static final int STICKER_FEATURE = 4;
 
 	// Initial selected feature is the brush
-//	private int currentFeature = BRUSH_FEATURE;
 	private int currentFeature = BRUSH_FEATURE;
 	private int currentHeight;
 	private int currentWidth;
@@ -49,12 +48,10 @@ public class PaintArea extends View
 	private float currentY;
 
 
-	private Random rand;
+	private Random random;
 
-//	private TOOLS currentTool = TOOLS.BRUSH;
 	private int currentTool = BRUSH_FEATURE;
 
-//	private int color = 0xFFCCCCCC;
 	private int color;
 //	private int strokeWidth = 2;
  	private int thickness = 2;
@@ -107,7 +104,7 @@ public class PaintArea extends View
 	private void setup()
 	{
 
-		rand = new Random();
+		random = new Random();
 		shapes = new Stack<>();
 		matrix = new Matrix();
 		paths = new ArrayList<>();
@@ -143,17 +140,6 @@ public class PaintArea extends View
 	// TODO: FINISH SETUP
 	private void setupStickerBitmaps()
 	{
-//		Drawable androidDrawable = getResources().getDrawable((R.drawable.star));
-//
-//		int size = (int) Helper.convertDpToPx(50, getContext());
-//
-//		stickerStar = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-//
-//		Canvas canvas = new Canvas(stickerStar);
-//		androidDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-//		androidDrawable.draw(canvas);
-//
-//		currentBitmap = stickerStar;
 
         Drawable androidDrawable = getResources().getDrawable((R.drawable.star));
 
@@ -220,7 +206,7 @@ public class PaintArea extends View
 
 	public int getColor() {
 		if (color == -1){
-			return rand.nextInt(0x1000000) + 0xff000000;
+			return random.nextInt(0x1000000) + 0xff000000;
 		} else {
 			return color;
 		}
@@ -363,12 +349,6 @@ public class PaintArea extends View
 		int dpPixel = 100;
 		float actualPixels = Helper.convertDpToPx(dpPixel, getContext());
 
-//		int width;
-//		int height;
-
-//		int desiredWidth = (int) Helper.convertDpToPx(100, getContext());
-//		int desiredHeight = (int) Helper.convertDpToPx(100, getContext());
-
 		int desiredWidth = (int) actualPixels;
 		int desiredHeight = (int) actualPixels;
 
@@ -414,44 +394,6 @@ public class PaintArea extends View
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-//		if (event.getAction() == MotionEvent.ACTION_DOWN)
-//		{
-//			performClick();
-//		}
-//
-//		float x = event.getX();
-//		float y = event.getY();
-//
-//		switch (currentTool)
-//		{
-//			case BRUSH_FEATURE:
-//				switch (event.getAction())
-//				{
-//					case MotionEvent.ACTION_DOWN:
-//						startPath(x, y);
-//						invalidate();
-//						break;
-//					case MotionEvent.ACTION_MOVE:
-//						continuePath(x, y);
-//						invalidate();
-//						break;
-//					case MotionEvent.ACTION_UP:
-//						stopPath(x, y);
-//						shapePosition.push(shapes.size());
-//						invalidate();
-//						break;
-//				}
-//				break;
-//			case RECTANGLE_FEATURE:
-//				onDrawRectangle(event);
-//			case LINE_FEATURE:
-//				Log.i("Draw","Going to use the line");
-//				onDrawLine(event);
-//			case STICKER_FEATURE:
-//				onDrawSticker(event);
-//		}
-//
-//		return true;
 
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             performClick();         //needed by android studio to handle normal click event stuff
@@ -494,61 +436,9 @@ public class PaintArea extends View
         return true;
 	}
 
-
-
-//	public void drawShape(Shape shape, MotionEvent event)
-//	{
-//		shape.onDraw(event);
-//		invalidate();
-//	}
-//
-//	public void setCurrentTool(int currentTool)
-//	{
-//		Log.i("Draw", "Current tool set to " + currentTool);
-//		this.currentTool = currentTool;
-//	}
-//
-//	public void setShapes(Stack<Shape> shapeStack)
-//	{
-//		this.shapeStack = shapeStack;
-//		invalidate();
-//	}
-//
-//	public void setShapePosition(Stack<Integer> shapePosition)
-//	{
-//		this.shapePosition = shapePosition;
-//		invalidate();
-//	}
-
 	//Create a line on first touch, and move the line while the user is dragging their finger around
 	private void onDrawLine(MotionEvent event)
 	{
-
-//		switch (event.getAction())
-//		{
-//			case MotionEvent.ACTION_DOWN:
-//				int x = (int) event.getX();
-//				int y = (int) event.getY();
-//
-//				Line line = new Line(x, y, x + 1, y + 1, color, thickness);
-//				shapes.push(line);
-//				isDrawing = true;
-//				Log.i("Draw","Action down ondrawline");
-//			case MotionEvent.ACTION_UP:
-//				isDrawing = false;
-//				shapePosition.push(shapes.size());
-//				Log.i("Draw","Action up ondrawline");
-//			case MotionEvent.ACTION_MOVE:
-//				if (isDrawing)
-//				{
-//					Log.i("Draw","Action move and drawing ondrawline");
-//
-////					((Line) shapes.peek()).setEndx(((int) event.getX()));
-////					((Line) shapes.peek()).setEndy(((int) event.getY()));
-//				}
-//		}
-//
-//		invalidate();
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             int x = (int) event.getX();
@@ -944,28 +834,3 @@ class Sticker implements Shape {
 		return PAINT_FILL;
 	}
 }
-
-//interface Shape
-//{
-//	// Get's fill color
-//	int getColor();
-//
-//	int getThickness();
-//
-//	int fillColor = 1;
-//	int strokeColor = 0;
-//
-//	void draw(Canvas canvas, Paint paint);
-//
-//	int getFillColor();
-//
-//	void setFillColor(int fillColor);
-//
-//	int getStrokeColor();
-//
-//	void setStrokeColor(int strokeColor);
-//
-//	void onDraw(MotionEvent event);
-//
-//	PAINT_STYLE getPaintStyle();
-//}
