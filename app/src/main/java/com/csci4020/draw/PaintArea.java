@@ -56,14 +56,14 @@ public class PaintArea extends View
 	Bitmap outsideFrame;
 	Bitmap currentBitmap;
 	Bitmap stickerStar;
-	Bitmap stickerLee;
-	Bitmap stickerLeaf;
+	Bitmap stickerOctagon;
+	Bitmap stickerShield;
 
     private Random random;
 
-	public static final int STAR_STICKER = 1;
-    public static final int STICKER_LEAF = 2;
-    public static final int STICKER_LEE = 3;
+	public static final int STICKER_STAR = 1;
+    public static final int STICKER_SHIELD = 2;
+    public static final int STICKER_OCTAGON = 3;
 
 	Stack<Shape> shapes;
 	public Stack<Integer> shapePosition;
@@ -127,33 +127,33 @@ public class PaintArea extends View
 	private void setupStickerBitmaps()
 	{
 
-        Drawable androidDrawable = getResources().getDrawable((R.drawable.star));
+        Drawable drawableStar = getResources().getDrawable((R.drawable.star));
 
         int size = (int) Helper.convertDpToPx(50, getContext());
         stickerStar = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(stickerStar);
-        androidDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        androidDrawable.draw(canvas);
+        drawableStar.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawableStar.draw(canvas);
 
 
-        Drawable leeDrawable = getResources().getDrawable((R.drawable.lee));
+        Drawable drawableOctagon = getResources().getDrawable((R.drawable.octagon));
 
-        stickerLee = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        stickerOctagon = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 
-        Canvas canvas2 = new Canvas(stickerLee);
-        leeDrawable.setBounds(0, 0, canvas2.getWidth(), canvas2.getHeight());
-        leeDrawable.draw(canvas2);
+        Canvas canvas2 = new Canvas(stickerOctagon);
+        drawableOctagon.setBounds(0, 0, canvas2.getWidth(), canvas2.getHeight());
+        drawableOctagon.draw(canvas2);
 
 
 
-        Drawable leafDrawable = getResources().getDrawable((R.drawable.leaves));
+        Drawable drawableShield = getResources().getDrawable((R.drawable.shield));
 
-        stickerLeaf = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        stickerShield = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 
-        Canvas canvas3 = new Canvas(stickerLeaf);
-        leafDrawable.setBounds(0, 0, canvas3.getWidth(), canvas3.getHeight());
-        leafDrawable.draw(canvas3);
+        Canvas canvas3 = new Canvas(stickerShield);
+        drawableShield.setBounds(0, 0, canvas3.getWidth(), canvas3.getHeight());
+        drawableShield.draw(canvas3);
 
         currentBitmap = stickerStar;
 
@@ -171,14 +171,14 @@ public class PaintArea extends View
 	{
 
         switch(stickerId){
-            case STAR_STICKER:
+            case STICKER_STAR:
                 currentBitmap = stickerStar;
                 break;
-            case STICKER_LEAF:
-                currentBitmap = stickerLeaf;
+            case STICKER_SHIELD:
+                currentBitmap = stickerShield;
                 break;
-            case STICKER_LEE:
-                currentBitmap = stickerLee;
+            case STICKER_OCTAGON:
+                currentBitmap = stickerOctagon;
                 break;
         }
 	}

@@ -206,11 +206,11 @@ public class DrawActivity extends Activity implements RadioGroup.OnCheckedChange
 
                 int sticker = 1;
                 switch (r.getCheckedRadioButtonId()){
-                    case R.id.radioButton_star: sticker = PaintArea.STAR_STICKER;
+                    case R.id.radioButton_star: sticker = PaintArea.STICKER_STAR;
                         break;
-                    case R.id.radioButton_leaf: sticker = PaintArea.STICKER_LEAF;
+                    case R.id.radioButton_shield: sticker = PaintArea.STICKER_SHIELD;
                         break;
-                    case R.id.radioButton_lee: sticker = PaintArea.STICKER_LEE;
+                    case R.id.radioButton_octagon: sticker = PaintArea.STICKER_OCTAGON;
                         break;
                 }
 
