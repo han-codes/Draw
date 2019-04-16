@@ -123,7 +123,6 @@ public class PaintArea extends View
 	 * Setup for using stickers
 	 */
 
-	// TODO: FINISH SETUP
 	private void setupStickerBitmaps()
 	{
 
@@ -253,11 +252,9 @@ public class PaintArea extends View
 		// go through shapes 1 by 1
 		for (Shape s : shapes)
 		{
-			// TODO THIS IS CHECKING IF IT IS PAINTING A FILL OR STROKE
 			if (s.getPaintToUse() == Shape.PAINT_FILL)
 			{
 				Log.i("Draw","Fill only is the paint style");
-				// TODO THIS SEEMS LIKE IT'S DUPLICATING THE SAME STEP. ??
 				mainPaint.setColor(s.getColor());
 				s.draw(canvas, mainPaint);
 			}
