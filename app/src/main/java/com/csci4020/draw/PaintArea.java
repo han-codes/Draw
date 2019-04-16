@@ -30,20 +30,22 @@ enum TOOLS
 	LINE(3),
 	STICKER(4);
 
-	TOOLS (int i ) {
-	    this.type = i;
-    }
+	TOOLS(int i)
+	{
+		this.type = i;
+	}
 
-    private int type;
+	private int type;
 
-	public int getNumbericType(){
-	    return type;
-    }
+	public int getNumbericType()
+	{
+		return type;
+	}
 }
 
 public class PaintArea extends View
 {
-    private int currentTool = TOOLS.BRUSH.getNumbericType();
+	private int currentTool = TOOLS.BRUSH.getNumbericType();
 
 	private int currentHeight;
 	private int currentWidth;
@@ -51,7 +53,7 @@ public class PaintArea extends View
 	private float currentY;
 
 	private int color;
- 	private int strokeWidth = 2;
+	private int strokeWidth = 2;
 	private Paint backgroundPaint;
 	private Paint mainPaint;
 	private Paint linePaint;
@@ -66,11 +68,11 @@ public class PaintArea extends View
 	Bitmap stickerOctagon;
 	Bitmap stickerShield;
 
-    private Random random;
+	private Random random;
 
 	public static final int STICKER_STAR = 1;
-    public static final int STICKER_SHIELD = 2;
-    public static final int STICKER_OCTAGON = 3;
+	public static final int STICKER_SHIELD = 2;
+	public static final int STICKER_OCTAGON = 3;
 
 	Stack<Shape> shapes;
 	public Stack<Integer> shapePosition;
@@ -133,41 +135,40 @@ public class PaintArea extends View
 	private void setupStickerBitmaps()
 	{
 
-        Drawable drawableStar = getResources().getDrawable((R.drawable.star));
+		Drawable drawableStar = getResources().getDrawable((R.drawable.star));
 
-        int size = (int) Helper.convertDpToPx(50, getContext());
-        stickerStar = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+		int size = (int) Helper.convertDpToPx(50, getContext());
+		stickerStar = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 
-        Canvas canvas = new Canvas(stickerStar);
-        drawableStar.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawableStar.draw(canvas);
-
-
-        Drawable drawableOctagon = getResources().getDrawable((R.drawable.octagon));
-
-        stickerOctagon = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas2 = new Canvas(stickerOctagon);
-        drawableOctagon.setBounds(0, 0, canvas2.getWidth(), canvas2.getHeight());
-        drawableOctagon.draw(canvas2);
+		Canvas canvas = new Canvas(stickerStar);
+		drawableStar.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+		drawableStar.draw(canvas);
 
 
+		Drawable drawableOctagon = getResources().getDrawable((R.drawable.octagon));
 
-        Drawable drawableShield = getResources().getDrawable((R.drawable.shield));
+		stickerOctagon = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 
-        stickerShield = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+		Canvas canvas2 = new Canvas(stickerOctagon);
+		drawableOctagon.setBounds(0, 0, canvas2.getWidth(), canvas2.getHeight());
+		drawableOctagon.draw(canvas2);
 
-        Canvas canvas3 = new Canvas(stickerShield);
-        drawableShield.setBounds(0, 0, canvas3.getWidth(), canvas3.getHeight());
-        drawableShield.draw(canvas3);
 
-        currentBitmap = stickerStar;
+		Drawable drawableShield = getResources().getDrawable((R.drawable.shield));
 
-    }
+		stickerShield = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 
-    //
-    // MARK: - Getters/Setters
-    //
+		Canvas canvas3 = new Canvas(stickerShield);
+		drawableShield.setBounds(0, 0, canvas3.getWidth(), canvas3.getHeight());
+		drawableShield.draw(canvas3);
+
+		currentBitmap = stickerStar;
+
+	}
+
+	//
+	// MARK: - Getters/Setters
+	//
 
 	/**
 	 * Set current bitmap to selected sticker
@@ -176,17 +177,18 @@ public class PaintArea extends View
 	public void setSticker(int stickerId)
 	{
 
-        switch(stickerId){
-            case STICKER_STAR:
-                currentBitmap = stickerStar;
-                break;
-            case STICKER_SHIELD:
-                currentBitmap = stickerShield;
-                break;
-            case STICKER_OCTAGON:
-                currentBitmap = stickerOctagon;
-                break;
-        }
+		switch (stickerId)
+		{
+			case STICKER_STAR:
+				currentBitmap = stickerStar;
+				break;
+			case STICKER_SHIELD:
+				currentBitmap = stickerShield;
+				break;
+			case STICKER_OCTAGON:
+				currentBitmap = stickerOctagon;
+				break;
+		}
 	}
 
 
@@ -196,50 +198,37 @@ public class PaintArea extends View
 	}
 
 
-
-	public int getColor() {
-		if (color == -1){
+	public int getColor()
+	{
+		if (color == -1)
+		{
 			return random.nextInt(0x1000000) + 0xff000000;
-		} else {
+		}
+		else
+		{
 			return color;
 		}
 	}
 
-	public void setColor(int color) {
+	public void setColor(int color)
+	{
 		this.color = color;
 		this.linePaint.setColor(color); // sometimes drawing goes in the previous color
 	}
 
-	public Canvas getCanvas() {
-		return canvas;
-	}
-
-	public void setCanvas(Canvas canvas) {
-		this.canvas = canvas;
-	}
-
-	public int getCurrentTool() {
-		return currentTool;
-	}
-
-	public void setCurrentTool(int currentTool) {
+	public void setCurrentTool(int currentTool)
+	{
 		this.currentTool = currentTool;
 	}
 
-	public Stack<Shape> getShapes() {
-		return shapes;
-	}
-
-	public void setShapes(Stack<Shape> shapes) {
+	public void setShapes(Stack<Shape> shapes)
+	{
 		this.shapes = shapes;
 		invalidate();
 	}
 
-	public Stack<Integer> getShapePositions() {
-		return shapePosition;
-	}
-
-	public void setShapePositions(Stack<Integer> shapePositions) {
+	public void setShapePositions(Stack<Integer> shapePositions)
+	{
 		this.shapePosition = shapePositions;
 		invalidate();
 	}
@@ -261,17 +250,17 @@ public class PaintArea extends View
 		{
 			if (s.getPaintToUse() == Shape.PAINT_FILL)
 			{
-				Log.i("Draw","Fill only is the paint style");
+				Log.i("Draw", "Fill only is the paint style");
 				mainPaint.setColor(s.getColor());
 				s.draw(canvas, mainPaint);
 			}
 			else if (s.getPaintToUse() == Shape.PAINT_STROKE)
 			{
-				Log.i("Draw","Stroke only is the paint style");
+				Log.i("Draw", "Stroke only is the paint style");
 				linePaint.setColor(s.getColor());
-				Log.i("Draw","Stroke Color: " + linePaint.getColor());
+				Log.i("Draw", "Stroke Color: " + linePaint.getColor());
 				linePaint.setStrokeWidth(s.getStrokeWidth());
-				Log.i("Draw","Stroke width: " + linePaint.getStrokeWidth());
+				Log.i("Draw", "Stroke width: " + linePaint.getStrokeWidth());
 				s.draw(canvas, linePaint);
 			}
 		}
@@ -386,70 +375,78 @@ public class PaintArea extends View
 	public boolean onTouchEvent(MotionEvent event)
 	{
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN){
-            performClick();         //needed by android studio to handle normal click event stuff
-        }
+		if (event.getAction() == MotionEvent.ACTION_DOWN)
+		{
+			performClick();         //needed by android studio to handle normal click event stuff
+		}
 
-        float x = event.getX();
-        float y = event.getY();
+		float x = event.getX();
+		float y = event.getY();
 
-//        Log.i(TAG_PICT_DRAW, "x = " + x + ", y = " + y);
-
-        if (currentTool == TOOLS.BRUSH.getNumbericType()) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    startPath(x, y);
-                    invalidate();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    continuePath(x, y);
-                    invalidate();
-                    break;
-                case MotionEvent.ACTION_UP:
-                    stopPath(x, y);
+		if (currentTool == TOOLS.BRUSH.getNumbericType())
+		{
+			switch (event.getAction())
+			{
+				case MotionEvent.ACTION_DOWN:
+					startPath(x, y);
+					invalidate();
+					break;
+				case MotionEvent.ACTION_MOVE:
+					continuePath(x, y);
+					invalidate();
+					break;
+				case MotionEvent.ACTION_UP:
+					stopPath(x, y);
 //                    compressDrawnLines();
-                    shapePosition.push(shapes.size());
-                    invalidate();
-                    break;
-            }
-        }
+					shapePosition.push(shapes.size());
+					invalidate();
+					break;
+			}
+		}
 
-        if (currentTool == TOOLS.RECTANGLE.getNumbericType()){
-            onDrawRectangle(event);
-        }
-        if (currentTool == TOOLS.LINE.getNumbericType()){
-            onDrawLine(event);
-        }
-        if (currentTool == TOOLS.STICKER.getNumbericType()){
-            onDrawSticker(event);
-        }
+		if (currentTool == TOOLS.RECTANGLE.getNumbericType())
+		{
+			onDrawRectangle(event);
+		}
+		if (currentTool == TOOLS.LINE.getNumbericType())
+		{
+			onDrawLine(event);
+		}
+		if (currentTool == TOOLS.STICKER.getNumbericType())
+		{
+			onDrawSticker(event);
+		}
 
-        return true;
+		return true;
 	}
 
 	//Create a line on first touch, and move the line while the user is dragging their finger around
 	private void onDrawLine(MotionEvent event)
 	{
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
+		if (event.getAction() == MotionEvent.ACTION_DOWN)
+		{
+			int x = (int) event.getX();
+			int y = (int) event.getY();
 
-            Line line = new Line(x, y, x+1, y+1, color, strokeWidth);
-            shapes.push(line);
-            isDrawing = true;
-        }
-        else if (event.getAction() == MotionEvent.ACTION_UP){
-            isDrawing = false;
-            shapePosition.push(shapes.size());
-        }
-        else if (event.getAction() == MotionEvent.ACTION_MOVE){
-            if (isDrawing) {
-                ((Line) shapes.peek()).setEndx(((int) event.getX()));
-                ((Line) shapes.peek()).setEndy(((int) event.getY()));
-            }
-        }
-        invalidate();
+			Line line = new Line(x, y, x + 1, y + 1, color, strokeWidth);
+			shapes.push(line);
+			isDrawing = true;
+		}
+		else if (event.getAction() == MotionEvent.ACTION_UP)
+		{
+			isDrawing = false;
+			shapePosition.push(shapes.size());
+		}
+		else if (event.getAction() == MotionEvent.ACTION_MOVE)
+		{
+			if (isDrawing)
+			{
+				((Line) shapes.peek()).setEndx(((int) event.getX()));
+				((Line) shapes.peek()).setEndy(((int) event.getY()));
+			}
+		}
+		invalidate();
 	}
 
 	private void onDrawRectangle(MotionEvent event)
@@ -534,12 +531,12 @@ public class PaintArea extends View
 	public void continuePath(float x, float y)
 	{
 		Log.i("Draw", "Continuing the free path");
-		Path temporaryPath = (Path)shapes.get(shapes.size() - 1);
+		Path temporaryPath = (Path) shapes.get(shapes.size() - 1);
 
 		if (Math.abs(currentX - x) >= 4 || Math.abs(currentY - y) >= 4)
 		{
 
-			temporaryPath.quadTo(currentX, currentY, (x+currentX)/2, (y+currentY)/2);
+			temporaryPath.quadTo(currentX, currentY, (x + currentX) / 2, (y + currentY) / 2);
 			currentX = x;
 			currentY = y;
 			shapes.add(temporaryPath);
@@ -553,7 +550,7 @@ public class PaintArea extends View
 	public void stopPath(float x, float y)
 	{
 		Log.i("Draw", "Finished a free path");
-		Path temporaryPath = (Path)shapes.get(shapes.size()-1);
+		Path temporaryPath = (Path) shapes.get(shapes.size() - 1);
 		temporaryPath.lineTo(x, y);
 		currentX = x;
 		currentY = y;
@@ -576,9 +573,6 @@ public class PaintArea extends View
 
 	public void undo()
 	{
-
-//		Path path = null;
-
 		path = null;
 		if (shapes.size() >= 1 && shapePosition.size() >= 2)
 		{
@@ -605,13 +599,17 @@ public class PaintArea extends View
 //Defines a shape, which must know how to draw itself when given a canvas and a paint,
 // have a color, and know what type of paint to use.
 // using this lets us have a stack of shapes that we can draw in order
-interface Shape{
+interface Shape
+{
 	void draw(Canvas canvas, Paint paint);
+
 	int getColor();
+
 	int getStrokeWidth();
 
 	int PAINT_FILL = 1;
 	int PAINT_STROKE = 0;
+
 	int getPaintToUse();
 }
 
@@ -619,47 +617,57 @@ interface Shape{
 //==============================================================================================
 //=     RECTANGLE
 //==============================================================================================
-class Rectangle implements Shape{
+class Rectangle implements Shape
+{
 	private Rect rect;
 	private int color;
 
-	Rectangle(int color, int left, int top, int right, int bottom){
+	Rectangle(int color, int left, int top, int right, int bottom)
+	{
 		rect = new Rect(left, top, right, bottom);
 		this.color = color;
 	}
 
-	public void draw(Canvas canvas, Paint paint){
+	public void draw(Canvas canvas, Paint paint)
+	{
 		canvas.drawRect(getRect(), paint);
 	}
 
-	public void setRight(int right){
+	public void setRight(int right)
+	{
 		rect.right = right;
 	}
 
-	public void setBottom(int bottom){
+	public void setBottom(int bottom)
+	{
 		rect.bottom = bottom;
 	}
 
-	public void setColor(int color){
+	public void setColor(int color)
+	{
 		this.color = color;
 	}
 
-	public int getColor(){
+	public int getColor()
+	{
 		return color;
 	}
 
-    @Override
-    public int getStrokeWidth() {
-        return 1;
-    }
+	@Override
+	public int getStrokeWidth()
+	{
+		return 1;
+	}
 
-    public Rect getRect(){
+	public Rect getRect()
+	{
 		return rect;
 	}
 
 
 	@Override
-	public int getPaintToUse() {
+	public int getPaintToUse()
+	{
 		return PAINT_FILL;
 	}
 
@@ -668,7 +676,8 @@ class Rectangle implements Shape{
 //==============================================================================================
 //=     LINE
 //==============================================================================================
-class Line implements Shape{
+class Line implements Shape
+{
 	private int startx;
 	private int starty;
 	private int endx;
@@ -677,8 +686,8 @@ class Line implements Shape{
 	private int strokeWidth;
 
 
-
-	public Line(int startx, int starty, int endx, int endy, int color, int strokeWidth) {
+	public Line(int startx, int starty, int endx, int endy, int color, int strokeWidth)
+	{
 		this.startx = startx;
 		this.starty = starty;
 		this.endx = endx;
@@ -688,29 +697,35 @@ class Line implements Shape{
 		this.strokeWidth = strokeWidth;
 	}
 
-	public void draw(Canvas canvas, Paint paint){
+	public void draw(Canvas canvas, Paint paint)
+	{
 		canvas.drawLine(startx, starty, endx, endy, paint);
 	}
 
-	public void setEndx(int endx) {
+	public void setEndx(int endx)
+	{
 		this.endx = endx;
 	}
 
-	public void setEndy(int endy) {
+	public void setEndy(int endy)
+	{
 		this.endy = endy;
 	}
 
-	public int getColor(){
+	public int getColor()
+	{
 		return color;
 	}
 
-    @Override
-    public int getStrokeWidth() {
-        return strokeWidth;
-    }
+	@Override
+	public int getStrokeWidth()
+	{
+		return strokeWidth;
+	}
 
-    @Override
-	public int getPaintToUse() {
+	@Override
+	public int getPaintToUse()
+	{
 		return PAINT_STROKE;
 	}
 }
@@ -718,111 +733,107 @@ class Line implements Shape{
 //==============================================================================================
 //=     MYPATH
 //==============================================================================================
-class Path implements Shape {
+class Path implements Shape
+{
 	private android.graphics.Path path;
 	private int color;
 	private int strokeWidth;
 
-//	public android.graphics.Path getPath() {
-//		return path;
-//	}
-//
-//	public void setPath(android.graphics.Path path) {
-//		this.path = path;
-//	}
-
-	public void setColor(int color) {
+	public void setColor(int color)
+	{
 		this.color = color;
 	}
 
-	public void setStrokeWidth(int strokeWidth){
+	public void setStrokeWidth(int strokeWidth)
+	{
 		this.strokeWidth = strokeWidth;
 	}
 
-	public Path(){
+	public Path()
+	{
 		this.path = new android.graphics.Path();
 		this.color = 0xFF000000; // default to black
 		this.strokeWidth = 5;
 	}
 
-//	public Path(android.graphics.Path path, int color, int strokeWidth) {
-//		this.path = path;
-//		this.color = color;
-//		this.strokeWidth = strokeWidth;
-//	}
-
-	public void draw(Canvas canvas, Paint paint){
+	public void draw(Canvas canvas, Paint paint)
+	{
 		canvas.drawPath(path, paint);
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor()
+	{
 		return color;
 	}
 
-    @Override
-    public int getStrokeWidth() {
-        return strokeWidth;
-    }
+	@Override
+	public int getStrokeWidth()
+	{
+		return strokeWidth;
+	}
 
 
 	@Override
-	public int getPaintToUse() {
+	public int getPaintToUse()
+	{
 		return PAINT_STROKE;
 	}
 
-	public void moveTo(float x, float y){
-		path.moveTo(x,y);
+	public void moveTo(float x, float y)
+	{
+		path.moveTo(x, y);
 	}
 
-	public void quadTo(float x, float y, float x2, float y2){
-		path.quadTo(x,y,x2,y2);
+	public void quadTo(float x, float y, float x2, float y2)
+	{
+		path.quadTo(x, y, x2, y2);
 	}
 
-	public void lineTo(float x, float y){
-		path.lineTo(x,y);
+	public void lineTo(float x, float y)
+	{
+		path.lineTo(x, y);
 	}
 }
 
 //==============================================================================================
 //=     STICKER
 //==============================================================================================
-class Sticker implements Shape {
+class Sticker implements Shape
+{
 	private int x, y;
 	private Bitmap bitmap;
 
 	@Override
-	public void draw(Canvas canvas, Paint paint) {
+	public void draw(Canvas canvas, Paint paint)
+	{
 		canvas.drawBitmap(bitmap, x, y, paint);
 	}
 
 	@Override
-	public int getColor() {
+	public int getColor()
+	{
 		return 0xff000000;
 	}
 
-    @Override
-    public int getStrokeWidth() {
-        return 1;
-    }
+	@Override
+	public int getStrokeWidth()
+	{
+		return 1;
+	}
 
-//	public int getX() {
-//		return x;
-//	}
-
-	public void setX(int x) {
+	public void setX(int x)
+	{
 		this.x = x;
 	}
 
-//	public int getY() {
-//		return y;
-//	}
-
-	public void setY(int y) {
+	public void setY(int y)
+	{
 		this.y = y;
 	}
 
-	public Sticker(int x, int y, Bitmap bitmap) {
+	public Sticker(int x, int y, Bitmap bitmap)
+	{
 
 		this.x = x;
 		this.y = y;
@@ -831,7 +842,8 @@ class Sticker implements Shape {
 
 	@Override
 
-	public int getPaintToUse() {
+	public int getPaintToUse()
+	{
 		return PAINT_FILL;
 	}
 }
