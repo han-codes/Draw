@@ -1,4 +1,10 @@
 package com.csci4020.draw;
+/**
+ * CSCI 4020
+ * ASSIGNMENT 4
+ * HANNIE KIM
+ * BRIAN LAKE
+ */
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

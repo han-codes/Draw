@@ -1,5 +1,12 @@
 package com.csci4020.draw;
 
+/**
+ * CSCI 4020
+ * ASSIGNMENT 4
+ * HANNIE KIM
+ * BRIAN LAKE
+ */
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
