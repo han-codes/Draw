@@ -293,7 +293,7 @@ public class PaintArea extends View
 		{
 			if (outsideFrame == null)
 			{
-				Drawable frameDrawable = getResources().getDrawable((R.drawable.frame));
+				Drawable frameDrawable = getResources().getDrawable((R.drawable.frame1));
 
 				outsideFrame = Bitmap.createBitmap(this.getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 
